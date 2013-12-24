@@ -26,11 +26,16 @@ LOCAL_MODULE_CLASS := ETC
 LOCAL_MODULE_PATH  := $(TARGET_ROOT_OUT)
 include $(BUILD_PREBUILT)
 
+#No need to patch init.rc anymore on JB and newer platforms.
+PATCH_INIT_RC=$(shell expr $(PLATFORM_SDK_VERSION) \< 16)
+
 $(LOCAL_BUILT_MODULE):
 	mkdir -p $(@D)
 	echo import /init.b2g.rc > $@
 	cat system/core/rootdir/init.rc >> $@
-	patch $@ gonk-misc/init.rc.patch
+ifeq ($(PATCH_INIT_RC),1)
+  patch $@ gonk-misc/init.rc.patch
+endif
 endif
 
 include $(CLEAR_VARS)
