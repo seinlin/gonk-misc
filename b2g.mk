@@ -48,3 +48,15 @@ ifneq ($(DISABLE_SOURCES_XML),true)
 PRODUCT_PACKAGES += \
 	sources.xml
 endif
+
+BOARD_SEPOLICY_DIRS += \
+  gonk-misc/sepolicy
+
+BOARD_SEPOLICY_UNION += \
+  b2g-vendor.te \
+  b2g.te \
+  fakeappops.te \
+  gonksched.te \
+  plugin-container.te \
+  rilproxy.te \
+  file_contexts
