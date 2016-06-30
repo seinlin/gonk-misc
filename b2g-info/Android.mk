@@ -15,11 +15,15 @@
 LOCAL_PATH:= $(call my-dir)
 
 include $(CLEAR_VARS)
+ifeq (1,$(filter 1,$(shell echo "$$(( $(PLATFORM_SDK_VERSION) < 23 ))" )))
 include external/stlport/libstlport.mk
+endif
 LOCAL_MODULE       := b2g-info
 LOCAL_MODULE_TAGS  := optional
 LOCAL_MODULE_CLASS := EXECUTABLES
 LOCAL_SRC_FILES    := b2g-info.cpp process.cpp processlist.cpp table.cpp utils.cpp
 LOCAL_FORCE_STATIC_EXECUTABLE := false
+ifeq (1,$(filter 1,$(shell echo "$$(( $(PLATFORM_SDK_VERSION) < 23 ))" )))
 LOCAL_SHARED_LIBRARIES := libstlport
+endif
 include $(BUILD_EXECUTABLE)
