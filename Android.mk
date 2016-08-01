@@ -271,7 +271,6 @@ GECKO_LIB_DEPS := \
 	libstagefright.so \
 	libstagefright_omx.so \
 	libsysutils.so \
-	libxt9.so \
 	$(NULL)
 
 ifneq ($(wildcard external/dbus),)
@@ -280,6 +279,10 @@ endif
 
 ifneq ($(wildcard system/core/libsuspend),)
 GECKO_LIB_DEPS += libsuspend.so
+endif
+
+ifneq ($(wildcard external/libxt9),)
+GECKO_LIB_DEPS += libxt9.so
 endif
 
 ifneq ($(strip $(SHOW_COMMANDS)),)
