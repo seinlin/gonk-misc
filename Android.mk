@@ -281,6 +281,10 @@ ifneq ($(wildcard system/core/libsuspend),)
 GECKO_LIB_DEPS += libsuspend.so
 endif
 
+ifneq ($(wildcard external/libxt9),)
+GECKO_LIB_DEPS += libxt9.so
+endif
+
 ifneq ($(strip $(SHOW_COMMANDS)),)
 SKIP_DASH_S = 1
 endif
