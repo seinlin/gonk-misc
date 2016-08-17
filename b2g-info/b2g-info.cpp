@@ -101,7 +101,7 @@ read_whole_file(const char* filename)
   return buf;
 }
 
-void print_system_meminfo()
+void print_system_meminfo(bool show_zram_info)
 {
   // We can't use sysinfo() here because iit doesn't tell us how much cached
   // memory we're using.  (On B2G, this is often upwards of 30mb.)
@@ -163,7 +163,7 @@ void print_system_meminfo()
 
   t.start_row();
   t.add("Used - cache");
-  t.add_fmt("%0.1f MB", kb_to_mb(total - free - buffers - cached - swap_cached));
+  t.add_fmt("%0.1f MB", actually_used / 1024.0);
 
   t.start_row();
   t.add("B2G procs (PSS)");
@@ -185,9 +185,30 @@ void print_system_meminfo()
   }
   t.add_fmt("%0.1f MB", non_b2g_mem_kb / 1024.0);
 
-  t.start_row();
-  t.add("Kernel");
-  t.add_fmt("%0.1f MB", kb_to_mb(total - free - buffers - cached - swap_cached - b2g_mem_kb - non_b2g_mem_kb));
+  if (show_zram_info) {
+#define ZRAM_DIR "/sys/block/zram0/"
+    int zram_mem_used_total = str_to_int(read_whole_file(ZRAM_DIR "mem_used_total"), -1);
+
+    t.start_row();
+    t.add("Kernel w/o zram");
+    t.add_fmt("%0.1f MB", kb_to_mb(actually_used - b2g_mem_kb - non_b2g_mem_kb - zram_mem_used_total / 1024.0));
+
+    t.start_row();
+    t.add("mem used of zram");
+    t.add_fmt("%0.1f MB", kb_to_mb(zram_mem_used_total / 1024.0));
+
+    t.start_row();
+    t.add("compr data of zram");
+    t.add_fmt("%0.1f MB", kb_to_mb( str_to_int(read_whole_file(ZRAM_DIR "compr_data_size"), -1) / 1024.0));
+
+    t.start_row();
+    t.add("orig data of zram");
+    t.add_fmt("%0.1f MB", kb_to_mb( str_to_int(read_whole_file(ZRAM_DIR "orig_data_size"), -1) / 1024.0));
+  } else {
+    t.start_row();
+    t.add("Kernel");
+    t.add_fmt("%0.1f MB", kb_to_mb(actually_used - b2g_mem_kb - non_b2g_mem_kb));
+  }
 
   t.start_row();
   t.add("Free + cache");
@@ -304,7 +325,7 @@ b2g_ps_add_table_headers(Table& t, bool show_threads)
 }
 
 int
-print_b2g_info(bool show_threads)
+print_b2g_info(bool show_threads, bool show_zram_info)
 {
   // TODO: switch between kb and mb for RSS etc.
   // TODO: Sort processes?
@@ -362,7 +383,7 @@ print_b2g_info(bool show_threads)
   t.print();
   putchar('\n');
 
-  print_system_meminfo();
+  print_system_meminfo(show_zram_info);
   putchar('\n');
 
   print_lmk_params();
@@ -379,6 +400,7 @@ void usage()
   printf("  -p, --pids         Print a list of all B2G PIDs.\n");
   printf("  -m, --main-pid     Print only the main B2G process's PID.\n");
   printf("  -c, --child-pids   Print only the child B2G processes' PIDs.\n");
+  printf("  -z, --zram-info    Print zram information.\n");
   printf("  -h, --help         Display this message.\n");
   printf("\n");
   printf("Note that all of these options are mutually-exclusive.\n");
@@ -403,6 +425,7 @@ int main(int argc, const char** argv)
   bool pids_only = false;
   bool main_pid_only = false;
   bool child_pids_only = false;
+  bool zram_info = false;
 
   if (argc > 1) {
     if (!strcmp(argv[1], "--help") || !strcmp(argv[1], "-h") || !strcmp(argv[1], "help")) {
@@ -413,7 +436,8 @@ int main(int argc, const char** argv)
     if (!(threads = !strcmp(argv[1], "-t") || !strcmp(argv[1], "--threads")) &&
         !(pids_only = !strcmp(argv[1], "-p") || !strcmp(argv[1], "--pids")) &&
         !(main_pid_only = !strcmp(argv[1], "-m") || !strcmp(argv[1], "--main-pid")) &&
-        !(child_pids_only = !strcmp(argv[1], "-c") || !strcmp(argv[1], "--child-pids"))) {
+        !(child_pids_only = !strcmp(argv[1], "-c") || !strcmp(argv[1], "--child-pids")) &&
+        !(zram_info = !strcmp(argv[1], "-z") || !strcmp(argv[1], "--zram-info"))) {
 
       fprintf(stderr, "Unknown argument %s.\n", argv[1]);
       usage();
@@ -426,5 +450,5 @@ int main(int argc, const char** argv)
     return 0;
   }
 
-  return print_b2g_info(threads);
+  return print_b2g_info(threads, zram_info);
 }
