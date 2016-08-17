@@ -148,6 +148,7 @@ ProcessList::processes_classify()
     if ((*it)->exe() == "/system/b2g/plugin-container" ||
         (*it)->exe() == "/system/b2g/b2g") {
       m_unordered_b2g_processes.push_back(*it);
+      (*it)->set_lite_meminfo(false);
     } else if ((*it)->exe_exist()){
       // Here we collect the process which has exe binary but not b2g related
       m_non_b2g_processes.push_back(*it);

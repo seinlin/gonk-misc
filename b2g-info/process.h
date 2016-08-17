@@ -108,6 +108,8 @@ public:
   int oom_score_adj();
   int oom_score();
 
+  void set_lite_meminfo(bool lite) { m_lite_meminfo = lite; }
+
   int vsize_kb();
   double vsize_mb() { return kb_to_mb(vsize_kb()); }
 
@@ -140,6 +142,7 @@ private:
   std::string m_exe;
 
   bool m_got_meminfo;
+  bool m_lite_meminfo;
   int m_vsize_kb;
   int m_rss_kb;
   int m_pss_kb;
