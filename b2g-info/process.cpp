@@ -201,6 +201,7 @@ Process::Process(pid_t pid)
   , m_pid(pid)
   , m_got_threads(false)
   , m_got_exe(false)
+  , m_exe_exist(false)
   , m_got_meminfo(false)
   , m_vsize_kb(-1)
   , m_rss_kb(-1)
@@ -260,12 +261,19 @@ Process::exe()
     link[0] = '\0';
   } else {
     link[link_length] = '\0';
+    m_exe_exist = true;
   }
 
   m_exe = link;
 
   m_got_exe = true;
   return m_exe;
+}
+
+bool
+Process::exe_exist()
+{
+  return m_exe_exist;
 }
 
 int

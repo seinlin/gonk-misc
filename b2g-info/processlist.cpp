@@ -133,15 +133,9 @@ ProcessList::child_processes()
   return m_child_processes;
 }
 
-const vector<Process*>&
-ProcessList::unordered_b2g_processes()
+void
+ProcessList::processes_classify()
 {
-  if (m_unordered_b2g_processes.size()) {
-    return m_unordered_b2g_processes;
-  }
-
-  assert(m_unordered_b2g_processes.size() == 0);
-
   // We could find child processes by looking for processes whose ppid matches
   // the main process's pid, but this requires reading /proc/<pid>/stat for
   // every process on the system.  It's a bit faster just to look for processes
@@ -154,9 +148,42 @@ ProcessList::unordered_b2g_processes()
     if ((*it)->exe() == "/system/b2g/plugin-container" ||
         (*it)->exe() == "/system/b2g/b2g") {
       m_unordered_b2g_processes.push_back(*it);
+    } else if ((*it)->exe_exist()){
+      // Here we collect the process which has exe binary but not b2g related
+      m_non_b2g_processes.push_back(*it);
     }
   }
+}
+
+const vector<Process*>&
+ProcessList::unordered_b2g_processes()
+{
+
+  if (m_unordered_b2g_processes.size()) {
+    return m_unordered_b2g_processes;
+  }
+
+  assert(m_unordered_b2g_processes.size() == 0);
+
+  processes_classify();
+
   return m_unordered_b2g_processes;
+}
+
+
+const vector<Process*>&
+ProcessList::non_b2g_processes()
+{
+
+  if (m_non_b2g_processes.size()) {
+    return m_non_b2g_processes;
+  }
+
+  assert(m_non_b2g_processes.size() == 0);
+
+  processes_classify();
+
+  return m_non_b2g_processes;
 }
 
 const vector<Process*>&

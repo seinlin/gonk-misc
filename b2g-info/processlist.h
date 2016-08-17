@@ -51,6 +51,16 @@ public:
   const std::vector<Process*>& unordered_b2g_processes();
 
   /**
+   * Get all of the non-B2G processes on the system.
+   */
+  const std::vector<Process*>& non_b2g_processes();
+
+  /**
+   * To classify all processes into b2g and non-b2g.
+   */
+  void processes_classify();
+
+  /**
    * Equal to [main_process] + [child_processes].
    */
   const std::vector<Process*>& b2g_processes();
@@ -70,5 +80,6 @@ private:
   std::vector<Process*> m_child_processes;
 
   std::vector<Process*> m_b2g_processes;
+  std::vector<Process*> m_non_b2g_processes;
   std::vector<Process*> m_unordered_b2g_processes;
 };

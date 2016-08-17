@@ -162,10 +162,6 @@ void print_system_meminfo()
   t.add_fmt("%0.1f MB", kb_to_mb(total));
 
   t.start_row();
-  t.add("SwapTotal");
-  t.add_fmt("%0.1f MB", kb_to_mb(swap_total));
-
-  t.start_row();
   t.add("Used - cache");
   t.add_fmt("%0.1f MB", kb_to_mb(total - free - buffers - cached - swap_cached));
 
@@ -180,8 +176,18 @@ void print_system_meminfo()
   t.add_fmt("%0.1f MB", b2g_mem_kb / 1024.0);
 
   t.start_row();
-  t.add("Non-B2G procs");
-  t.add_fmt("%0.1f MB", kb_to_mb(total - free - buffers - cached - b2g_mem_kb - swap_cached));
+  t.add("Non-B2G procs (PSS)");
+
+  int non_b2g_mem_kb = 0;
+  for (vector<Process*>::const_iterator it = ProcessList::singleton().non_b2g_processes().begin();
+       it != ProcessList::singleton().non_b2g_processes().end(); ++it) {
+    non_b2g_mem_kb += (*it)->pss_kb();
+  }
+  t.add_fmt("%0.1f MB", non_b2g_mem_kb / 1024.0);
+
+  t.start_row();
+  t.add("Kernel");
+  t.add_fmt("%0.1f MB", kb_to_mb(total - free - buffers - cached - swap_cached - b2g_mem_kb - non_b2g_mem_kb));
 
   t.start_row();
   t.add("Free + cache");
@@ -194,6 +200,30 @@ void print_system_meminfo()
   t.start_row();
   t.add("Cache");
   t.add_fmt("%0.1f MB", kb_to_mb(buffers + cached + swap_cached));
+
+  t.start_row();
+  t.add("SwapTotal");
+  t.add_fmt("%0.1f MB", kb_to_mb(swap_total));
+
+  t.start_row();
+  t.add("B2G procs (SWAP)");
+
+  int b2g_swap_kb = 0;
+  for (vector<Process*>::const_iterator it = ProcessList::singleton().b2g_processes().begin();
+       it != ProcessList::singleton().b2g_processes().end(); ++it) {
+    b2g_swap_kb += (*it)->swap_kb();
+  }
+  t.add_fmt("%0.1f MB", b2g_swap_kb / 1024.0);
+
+  t.start_row();
+  t.add("Non-B2G procs (SWAP)");
+
+  int non_b2g_swap_kb = 0;
+  for (vector<Process*>::const_iterator it = ProcessList::singleton().non_b2g_processes().begin();
+       it != ProcessList::singleton().non_b2g_processes().end(); ++it) {
+    non_b2g_swap_kb += (*it)->swap_kb();
+  }
+  t.add_fmt("%0.1f MB", non_b2g_swap_kb / 1024.0);
 
   t.start_row();
   t.add("SwapFree");

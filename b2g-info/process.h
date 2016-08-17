@@ -103,7 +103,7 @@ public:
    * If we can't retrieve the executable file, returns an empty string.
    */
   const std::string& exe();
-
+  bool exe_exist();
   int oom_adj();
   int oom_score_adj();
   int oom_score();
@@ -136,6 +136,7 @@ private:
   std::vector<Thread*> m_threads;
 
   bool m_got_exe;
+  bool m_exe_exist;
   std::string m_exe;
 
   bool m_got_meminfo;
