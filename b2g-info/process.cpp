@@ -201,7 +201,9 @@ Process::Process(pid_t pid)
   , m_pid(pid)
   , m_got_threads(false)
   , m_got_exe(false)
+  , m_exe_exist(false)
   , m_got_meminfo(false)
+  , m_lite_meminfo(true)
   , m_vsize_kb(-1)
   , m_rss_kb(-1)
   , m_pss_kb(-1)
@@ -260,12 +262,19 @@ Process::exe()
     link[0] = '\0';
   } else {
     link[link_length] = '\0';
+    m_exe_exist = true;
   }
 
   m_exe = link;
 
   m_got_exe = true;
   return m_exe;
+}
+
+bool
+Process::exe_exist()
+{
+  return m_exe_exist;
 }
 
 int
@@ -343,17 +352,23 @@ Process::ensure_got_meminfo()
   char line[256];
   while(fgets(line, sizeof(line), f)) {
       int val = 0;
-      if (sscanf(line, "Size: %d kB", &val) == 1) {
-        m_vsize_kb += val;
-      } else if (sscanf(line, "Rss: %d kB", &val) == 1) {
-        m_rss_kb += val;
-      } else if (sscanf(line, "Pss: %d kB", &val) == 1) {
+
+      // Add lite mode to improve performance. We got vsize/rss/uss/pss/swap
+      // in normal mode, but only pss/swap in lite mode. Non-b2g process will
+      // get meminfo in lite mode.
+      if (sscanf(line, "Pss: %d kB", &val) == 1) {
         m_pss_kb += val;
-      } else if (sscanf(line, "Private_Dirty: %d kB", &val) == 1 ||
-                 sscanf(line, "Private_Clean: %d kB", &val) == 1) {
-        m_uss_kb += val;
       } else if (sscanf(line, "Swap: %d kB", &val) == 1) {
         m_swap_kb += val;
+      } else if (!m_lite_meminfo) {
+        if (sscanf(line, "Size: %d kB", &val) == 1) {
+          m_vsize_kb += val;
+        } else if (sscanf(line, "Rss: %d kB", &val) == 1) {
+          m_rss_kb += val;
+        } else if (sscanf(line, "Private_Dirty: %d kB", &val) == 1 ||
+                   sscanf(line, "Private_Clean: %d kB", &val) == 1) {
+          m_uss_kb += val;
+        }
       }
   }
 

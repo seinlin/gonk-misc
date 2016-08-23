@@ -103,10 +103,12 @@ public:
    * If we can't retrieve the executable file, returns an empty string.
    */
   const std::string& exe();
-
+  bool exe_exist();
   int oom_adj();
   int oom_score_adj();
   int oom_score();
+
+  void set_lite_meminfo(bool lite) { m_lite_meminfo = lite; }
 
   int vsize_kb();
   double vsize_mb() { return kb_to_mb(vsize_kb()); }
@@ -136,9 +138,11 @@ private:
   std::vector<Thread*> m_threads;
 
   bool m_got_exe;
+  bool m_exe_exist;
   std::string m_exe;
 
   bool m_got_meminfo;
+  bool m_lite_meminfo;
   int m_vsize_kb;
   int m_rss_kb;
   int m_pss_kb;
