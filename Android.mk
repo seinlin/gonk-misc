@@ -281,6 +281,14 @@ ifneq ($(wildcard system/core/libsuspend),)
 GECKO_LIB_DEPS += libsuspend.so
 endif
 
+ifneq ($(wildcard external/libxml2),)
+GECKO_LIB_DEPS += libxml2.so
+endif
+
+ifeq (1,$(filter 1,$(shell echo "$$(( $(PLATFORM_SDK_VERSION) >= 23 ))" )))
+GECKO_LIB_DEPS += libstdc++.so
+endif
+
 ifneq ($(wildcard external/libxt9),)
 GECKO_LIB_DEPS += libxt9.so
 endif
