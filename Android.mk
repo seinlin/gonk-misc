@@ -224,6 +224,9 @@ $(LOCAL_INSTALLED_MODULE): $(LOCAL_BUILT_MODULE) gaia-prefs $(APRIORI) $(PRELINK
 ifneq (,$(EXPORT_DEVICE_PREFS))
 	cp -n $(EXPORT_DEVICE_PREFS)/*.js $(TARGET_OUT)/b2g/defaults/pref/
 endif
+ifneq (,$(EXPORT_BUILD_PREFS))
+	cp -n $(EXPORT_BUILD_PREFS) $(TARGET_OUT)/b2g/defaults/pref/
+endif
 
 	cd $(TARGET_OUT) && tar xvfz $(abspath $<)
 
