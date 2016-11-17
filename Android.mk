@@ -224,6 +224,9 @@ $(LOCAL_INSTALLED_MODULE): $(LOCAL_BUILT_MODULE) gaia-prefs $(APRIORI) $(PRELINK
 ifneq (,$(EXPORT_DEVICE_PREFS))
 	cp -n $(EXPORT_DEVICE_PREFS)/*.js $(TARGET_OUT)/b2g/defaults/pref/
 endif
+ifneq (,$(EXPORT_DEVICE_USER_BUILD_PREFS))
+	cp -n $(EXPORT_DEVICE_USER_BUILD_PREFS) $(TARGET_OUT)/b2g/defaults/pref/
+endif
 ifneq (,$(EXPORT_BUILD_PREFS))
 	cp -n $(EXPORT_BUILD_PREFS) $(TARGET_OUT)/b2g/defaults/pref/
 endif
@@ -336,6 +339,7 @@ $(LOCAL_BUILT_MODULE): $(TARGET_CRTBEGIN_DYNAMIC_O) $(TARGET_CRTEND_O) $(addpref
 	export B2G_UPDATE_CHANNEL="$(B2G_UPDATE_CHANNEL)" && \
 	export ARCH_ARM_VFP="$(ARCH_ARM_VFP)" && \
 	export MALLOC_IMPL="$(MALLOC_IMPL)" && \
+	export ENABLE_MARIONETTE="$(ENABLE_MARIONETTE)" && \
 	echo $(MAKE) -C $(GECKO_PATH) -f client.mk $(SHOW_COMMAND_GECKO) MOZ_MAKE_FLAGS= && \
 	$(MAKE) -C $(GECKO_PATH) -f client.mk $(SHOW_COMMAND_GECKO) MOZ_MAKE_FLAGS= && \
 	rm -f $(GECKO_OBJDIR)/dist/b2g-*.tar.gz && \
