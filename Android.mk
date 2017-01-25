@@ -152,6 +152,17 @@ $(LOCAL_BUILT_MODULE): FORCE
 	mkdir -p $(@D)
 	python $(ADD_REVISION) --b2g-path . \
 		--tags .repo/manifest.xml --force --output $@
+
+# It's called md5 on Mac OS and md5sum on Linux
+ifeq ($(HOST_OS),darwin)
+MD5SUM:=md5 -q
+else
+# cut the extra '-' at the end
+MD5SUM:=md5sum | cut -d ' ' -f1
+endif
+
+# Add KaiOS build UID to system property
+ADDITIONAL_BUILD_PROPERTIES += ro.build.kaios_uid=$(shell cat $(TARGET_OUT)/sources.xml | $(MD5SUM))
 endif
 endif
 
