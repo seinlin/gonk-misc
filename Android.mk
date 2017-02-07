@@ -152,6 +152,8 @@ $(LOCAL_BUILT_MODULE): FORCE
 	mkdir -p $(@D)
 	python $(ADD_REVISION) --b2g-path . \
 		--tags .repo/manifest.xml --force --output $@
+endif
+endif
 
 # It's called md5 on Mac OS and md5sum on Linux
 ifeq ($(HOST_OS),darwin)
@@ -162,8 +164,9 @@ MD5SUM:=md5sum | cut -d ' ' -f1
 endif
 
 # Add KaiOS build UID to system property
-ADDITIONAL_BUILD_PROPERTIES += ro.build.kaios_uid=$(shell cat $(TARGET_OUT)/sources.xml | $(MD5SUM))
-endif
+REPO_INFO := $(GECKO_OBJDIR)/dist/repo_info.txt
+ifneq ($(wildcard $(REPO_INFO)),)
+ADDITIONAL_BUILD_PROPERTIES += ro.build.kaios_uid=$(shell cat $(REPO_INFO) | $(MD5SUM))
 endif
 
 #
