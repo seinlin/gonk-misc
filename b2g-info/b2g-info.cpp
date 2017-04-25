@@ -287,7 +287,7 @@ void print_lmk_params()
 
   Table t;
   t.start_row();
-  t.add("oom_adj");
+  t.add("oom_score_adj");
   t.add("min_free", Table::ALIGN_LEFT);
 
   for (size_t i = 0; i < max(oom_adjs.size(), minfrees.size()); i++) {
@@ -324,7 +324,8 @@ b2g_ps_add_table_headers(Table& t, bool show_threads)
   t.add("RSS");
   t.add("SWAP");
   t.add("VSIZE");
-  t.add("OOM_ADJ");
+  t.add("ADJ");
+  t.add("SCORE_ADJ");
   t.add("USER", Table::ALIGN_LEFT);
 }
 
@@ -364,6 +365,7 @@ print_b2g_info(bool show_threads, bool show_zram_info)
     t.add_fmt("%0.1f", p->swap_mb());
     t.add_fmt("%0.1f", p->vsize_mb());
     t.add(p->oom_adj());
+    t.add(p->oom_score_adj());
     t.add(p->user(), Table::ALIGN_LEFT);
 
     if (show_threads) {
