@@ -215,12 +215,16 @@ void print_system_meminfo(bool show_zram_info)
   t.add_fmt("%0.1f MB", kb_to_mb(free + buffers + cached + swap_cached));
 
   t.start_row();
-  t.add("Free");
+  t.add("Cache");
+  t.add_fmt("%0.1f MB", kb_to_mb(buffers + cached + swap_cached));
+
+  t.start_row();
+  t.add("Free(other_free)");
   t.add_fmt("%0.1f MB", kb_to_mb(free));
 
   t.start_row();
-  t.add("Cache");
-  t.add_fmt("%0.1f MB", kb_to_mb(buffers + cached + swap_cached));
+  t.add("Cache(other_file)");
+  t.add_fmt("%0.1f MB", kb_to_mb(buffers + cached));
 
   t.start_row();
   t.add("SwapTotal");
