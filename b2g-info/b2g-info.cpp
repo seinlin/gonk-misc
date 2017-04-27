@@ -264,8 +264,18 @@ void print_lmk_params()
   puts("Low-memory killer parameters:\n");
 
   int notify_pages = str_to_int(read_whole_file(LMK_DIR "notify_trigger"), -1);
-  printf("  notify_trigger %d KB\n", pages_to_kb(notify_pages));
-  putchar('\n');
+  int notify_trigger_active = str_to_int(read_whole_file("/sys/kernel/mm/lowmemkiller/notify_trigger_active"), -1);
+
+  Table table;
+
+  table.start_row();
+  table.add("notify_trigger");
+  table.add_fmt("%d KB", pages_to_kb(notify_pages));
+  table.start_row();
+  table.add("noitfy_trigger_active");
+  table.add_fmt("%d   ", notify_trigger_active);
+  table.start_row();
+  table.print_with_indent(2);
 
   vector<int> oom_adjs;
   {
