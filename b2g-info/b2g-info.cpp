@@ -215,12 +215,16 @@ void print_system_meminfo(bool show_zram_info)
   t.add_fmt("%0.1f MB", kb_to_mb(free + buffers + cached + swap_cached));
 
   t.start_row();
-  t.add("Free");
+  t.add("Cache");
+  t.add_fmt("%0.1f MB", kb_to_mb(buffers + cached + swap_cached));
+
+  t.start_row();
+  t.add("Free(other_free)");
   t.add_fmt("%0.1f MB", kb_to_mb(free));
 
   t.start_row();
-  t.add("Cache");
-  t.add_fmt("%0.1f MB", kb_to_mb(buffers + cached + swap_cached));
+  t.add("Cache(other_file)");
+  t.add_fmt("%0.1f MB", kb_to_mb(buffers + cached));
 
   t.start_row();
   t.add("SwapTotal");
@@ -260,8 +264,18 @@ void print_lmk_params()
   puts("Low-memory killer parameters:\n");
 
   int notify_pages = str_to_int(read_whole_file(LMK_DIR "notify_trigger"), -1);
-  printf("  notify_trigger %d KB\n", pages_to_kb(notify_pages));
-  putchar('\n');
+  int notify_trigger_active = str_to_int(read_whole_file("/sys/kernel/mm/lowmemkiller/notify_trigger_active"), -1);
+
+  Table table;
+
+  table.start_row();
+  table.add("notify_trigger");
+  table.add_fmt("%d KB", pages_to_kb(notify_pages));
+  table.start_row();
+  table.add("noitfy_trigger_active");
+  table.add_fmt("%d   ", notify_trigger_active);
+  table.start_row();
+  table.print_with_indent(2);
 
   vector<int> oom_adjs;
   {
@@ -283,7 +297,7 @@ void print_lmk_params()
 
   Table t;
   t.start_row();
-  t.add("oom_adj");
+  t.add("oom_score_adj");
   t.add("min_free", Table::ALIGN_LEFT);
 
   for (size_t i = 0; i < max(oom_adjs.size(), minfrees.size()); i++) {
@@ -320,7 +334,8 @@ b2g_ps_add_table_headers(Table& t, bool show_threads)
   t.add("RSS");
   t.add("SWAP");
   t.add("VSIZE");
-  t.add("OOM_ADJ");
+  t.add("ADJ");
+  t.add("SCORE_ADJ");
   t.add("USER", Table::ALIGN_LEFT);
 }
 
@@ -360,6 +375,7 @@ print_b2g_info(bool show_threads, bool show_zram_info)
     t.add_fmt("%0.1f", p->swap_mb());
     t.add_fmt("%0.1f", p->vsize_mb());
     t.add(p->oom_adj());
+    t.add(p->oom_score_adj());
     t.add(p->user(), Table::ALIGN_LEFT);
 
     if (show_threads) {
