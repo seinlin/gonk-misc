@@ -387,6 +387,8 @@ print_b2g_info(bool show_threads, bool show_zram_info)
         Thread* thread = *thread_it;
         t.add(thread->name());
         t.add(thread->tid());
+        t.add(thread->ppid());
+        t.add_fmt("%0.2f", thread->stime_s() + thread->utime_s());
         t.add(thread->nice());
       }
 
