@@ -52,6 +52,7 @@ fi
 
 if [ "${B2G_PROFILING:-0}" != "0" ]; then
 ac_add_options --enable-profiling
+ac_add_options --enable-tasktracer
 fi
 
 if [ "$HOST_OS" != "linux" ]; then
@@ -77,10 +78,12 @@ fi
 
 ac_add_options --without-intl-api
 
-if [ "$TARGET_BUILD_VARIANT" = eng ]; then
-  # bug 979947 - Engineering builds should have
-  # the profiler enabled by default
+if [ "$TARGET_BUILD_VARIANT" != "user" ] ; then
+  # Bug 12048 enables TaskTracer, since some device branches do not have
+  # engineering builds, we should enable profiler and tasktracer for
+  # both engineering builds and userdebug builds.
   ac_add_options --enable-profiling
+  ac_add_options --enable-tasktracer
 fi
 
 ac_add_options --disable-tests
