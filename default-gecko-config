@@ -58,14 +58,8 @@ if [ "$HOST_OS" != "linux" ]; then
 ac_add_options --disable-crashreporter
 fi
 
-if [ "${B2G_UPDATER:-0}" != "0" ]; then
-  # Note: if B2G_UPDATE_CHANNEL isn't set, then configure will use its own
-  # default, which is "default".
-  ac_add_options --enable-updater
-  ac_add_options --enable-update-channel="${B2G_UPDATE_CHANNEL}"
-fi
-
-ac_add_options --enable-update-packaging
+# Always disable Gecko's standard updater since we don't use it.
+ac_add_options --disable-updater
 
 # Enable dump() from JS.
 export CXXFLAGS="-DMOZ_ENABLE_JS_DUMP $EXTRA_INCLUDE $EXTRA_CXXFLAGS ${CXXFLAGS}"
