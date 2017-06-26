@@ -90,3 +90,4 @@ if [ "$TARGET_BUILD_VARIANT" = eng ]; then
 fi
 
 ac_add_options --disable-tests
+ac_add_options --disable-gamepad
