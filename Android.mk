@@ -341,7 +341,29 @@ endif
 $(LOCAL_BUILT_MODULE): $(TARGET_CRTBEGIN_DYNAMIC_O) $(TARGET_CRTEND_O) $(addprefix $(TARGET_OUT_SHARED_LIBRARIES)/,$(GECKO_LIB_DEPS))
 	(echo "export GECKO_OBJDIR=$(abspath $(GECKO_OBJDIR))"; \
 	echo "export GECKO_TOOLS_PREFIX=$(abspath $(GECKO_TOOLS_PREFIX))"; \
-	echo "export PRODUCT_OUT=$(abspath $(PRODUCT_OUT))" ) > .var.profile
+	echo "export PRODUCT_OUT=$(abspath $(PRODUCT_OUT))"; \
+	echo "export CONFIGURE_ARGS=$(GECKO_CONFIGURE_ARGS)"; \
+	echo "export GONK_PRODUCT=$(TARGET_DEVICE)"; \
+	echo "export TARGET_ARCH=$(TARGET_ARCH)"; \
+	echo "export TARGET_BUILD_VARIANT=$(TARGET_BUILD_VARIANT)"; \
+	echo "export TARGET_C_INCLUDES=\"$(addprefix -isystem ,$(abspath $(TARGET_C_INCLUDES)))\""; \
+	echo "export PLATFORM_SDK_VERSION=$(PLATFORM_SDK_VERSION)"; \
+	echo "export HOST_OS=$(HOST_OS)";	\
+	echo "export GECKO_TOOLS_PREFIX=$(abspath $(GECKO_TOOLS_PREFIX))"; \
+	echo "export GONK_PATH=$(abspath .)"; \
+	echo "export GECKO_OBJDIR=$(abspath $(GECKO_OBJDIR))"; \
+	echo "export USE_CACHE=$(USE_CCACHE)"; \
+	echo "export MOZCONFIG=$(abspath $(MOZCONFIG_PATH))"; \
+	echo "export EXTRA_INCLUDE=\"-include $(UNICODE_HEADER_PATH)\""; \
+	echo "export EXTRA_CXXFLAGS=\"$(EXTRA_CXXFLAGS)\""; \
+	echo "export DISABLE_JEMALLOC=$(DISABLE_JEMALLOC)"; \
+	echo "export B2G_UPDATER=$(B2G_UPDATER)"; \
+	echo "export B2G_UPDATE_CHANNEL=$(B2G_UPDATE_CHANNEL)"; \
+	echo "export ARCH_ARM_VFP=$(ARCH_ARM_VFP)"; \
+	echo "export MALLOC_IMPL=$(MALLOC_IMPL)"; \
+	echo "export ENABLE_MARIONETTE=$(ENABLE_MARIONETTE)"; \
+	echo "export PRODUCT_MANUFACTURER=$(PRODUCT_MANUFACTURER)"; \
+	) > .var.profile
 	export CONFIGURE_ARGS="$(GECKO_CONFIGURE_ARGS)" && \
 	export GONK_PRODUCT="$(TARGET_DEVICE)" && \
 	export TARGET_ARCH="$(TARGET_ARCH)" && \
