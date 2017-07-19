@@ -20,6 +20,7 @@ service rilproxy /system/bin/rilproxy
     group radio
 
 service nfcd /system/bin/nfcd
+    disabled
     class main
     oneshot
     socket nfcd stream 660 nfc nfc
