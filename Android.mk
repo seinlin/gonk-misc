@@ -169,6 +169,12 @@ ifneq ($(wildcard $(REPO_INFO)),)
 ADDITIONAL_BUILD_PROPERTIES += ro.build.kaios_uid=$(shell cat $(REPO_INFO) | $(MD5SUM))
 endif
 
+# Add system properties via menuconfig
+MCONF_PROPERTIES := external/menuconfig/custom-system.prop
+ifneq ($(wildcard $(MCONF_PROPERTIES)),)
+ADDITIONAL_BUILD_PROPERTIES += $(shell cat $(MCONF_PROPERTIES))
+endif
+
 #
 # Gecko glue
 #
