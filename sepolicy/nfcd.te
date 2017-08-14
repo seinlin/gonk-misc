@@ -1,0 +1,13 @@
+# nfcd
+type nfcd, domain;
+type nfcd_exec, exec_type, file_type;
+
+init_daemon_domain(nfcd)
+
+# audit2allow
+allow nfcd b2g:unix_stream_socket connectto;
+allow nfcd nfc_data_file:dir rw_dir_perms;
+allow nfcd nfc_data_file:file create_file_perms;
+allow nfcd nfc_device:chr_file rw_file_perms;
+allow nfcd sysfs_wake_lock:file rw_file_perms;
+allow nfcd log_device:chr_file w_file_perms;
