@@ -224,7 +224,7 @@ endif
 # Preserve the /system/b2g/distribution/ directory as its contents are not
 # populated as a part of this rule, and may even be populated before this
 # rule executes
-PRESERVE_DIRS := distribution
+PRESERVE_DIRS := distribution gaia_defaults
 ifeq ($(PRESERVE_B2G_WEBAPPS), 1)
 PRESERVE_DIRS += webapps
 endif
@@ -234,7 +234,8 @@ $(LOCAL_INSTALLED_MODULE): $(LOCAL_BUILT_MODULE) gaia-prefs $(APRIORI) $(PRELINK
 	rm -rf $(filter-out $(addprefix $(TARGET_OUT)/b2g/,$(PRESERVE_DIRS)),$(wildcard $(TARGET_OUT)/b2g/*))
 
 	mkdir -p $(TARGET_OUT)/b2g/defaults/pref
-	cp -r $(GAIA_PATH)/profile/defaults/* $(TARGET_OUT)/b2g/defaults/
+	cp -r $(TARGET_OUT)/b2g/gaia_defaults/* $(TARGET_OUT)/b2g/defaults/
+	rm -r $(TARGET_OUT)/b2g/gaia_defaults
 ifneq (,$(EXPORT_DEVICE_PREFS))
 	cp -n $(EXPORT_DEVICE_PREFS)/*.js $(TARGET_OUT)/b2g/defaults/pref/
 endif
