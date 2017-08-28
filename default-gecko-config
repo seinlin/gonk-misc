@@ -92,3 +92,4 @@ ac_add_options --disable-tests
 ac_add_options --disable-gamepad
 ac_add_options --disable-feeds
 ac_add_options --disable-telemetry
+ac_add_options --disable-presentation
