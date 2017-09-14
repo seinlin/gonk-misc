@@ -57,3 +57,8 @@ ifneq ($(DISABLE_SOURCES_XML),true)
 PRODUCT_PACKAGES += \
 	sources.xml
 endif
+
+ifeq ($(ENABLE_RADVD),true)
+PRODUCT_PACKAGES += \
+	radvd
+endif
