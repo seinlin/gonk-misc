@@ -27,6 +27,14 @@ service nfcd /system/bin/nfcd
     user nfc
     group system
 
+service radvd /system/bin/radvd -C /data/misc/radvd/radvd.conf \
+    -n -p /data/misc/radvd/radvd.pid
+    disabled
+    oneshot
+
+on post-fs-data
+    mkdir /data/misc/radvd 0770 system system
+
 on boot
     exec /system/bin/rm -r /data/local/tmp
     exec /system/bin/mkdir -p /data/local/tmp

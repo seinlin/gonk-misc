@@ -212,6 +212,10 @@ allow init b2g:unix_dgram_socket sendto;
 
 allow toolbox b2g_data_file:dir r_dir_perms;
 allow shell b2g_exec:file getattr;
+
+# config tethering IPv6 router mode
+allow b2g proc_net:file write;
+
 #allow sensorsd b2g:unix_stream_socket connectto;
 
 #allow mediaserver b2g:binder { call transfer };
