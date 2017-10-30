@@ -23,6 +23,10 @@ if [ -f "$KAI_GEO_KEY_FILE" ]; then
 ac_add_options --with-kaios-geo-api-keyfile="$KAI_GEO_KEY_FILE"
 fi
 
+if [ -f "$KAI_PUSH_KEY_FILE" ]; then
+ac_add_options --with-kaios-push-api-keyfile="$KAI_PUSH_KEY_FILE"
+fi
+
 ac_add_options --enable-debug-symbols
 if [ "${B2G_DEBUG:-0}" != "0" ]; then
 ac_add_options --enable-debug
