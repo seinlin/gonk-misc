@@ -327,6 +327,10 @@ ifneq ($(wildcard external/librt9),)
 GECKO_LIB_DEPS += librt9.so
 endif
 
+ifneq ($(wildcard external/libkika),)
+GECKO_LIB_DEPS += libIQQILib.so
+endif
+
 ifneq ($(strip $(SHOW_COMMANDS)),)
 SKIP_DASH_S = 1
 endif
