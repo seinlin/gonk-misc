@@ -1,2 +1,2 @@
-# mediaserver
+#============= mediaserver ==============
 allow mediaserver bluetoothd:unix_stream_socket connectto;
