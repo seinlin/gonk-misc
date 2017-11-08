@@ -280,6 +280,10 @@ ifeq ($(ARCH_ARM_HAVE_NEON), true)
 ARCH_ARM_VFP := neon
 endif
 
+ifeq ($(shell if test -d external/jsoncpp; then echo true; else echo false; fi;),true)
+GECKO_LIB_STATIC := $(PRODUCT_OUT)/obj/STATIC_LIBRARIES/libjsoncpp_intermediates/libjsoncpp.a
+endif
+
 .PHONY: gecko-update-full
 gecko-update-full:
 	mkdir -p $(DIST_B2G_UPDATE_DIR)
@@ -348,7 +352,7 @@ GECKO_TOOLS_PREFIX = $(TARGET_TOOLS_PREFIX)
 endif
 
 .PHONY: $(LOCAL_BUILT_MODULE)
-$(LOCAL_BUILT_MODULE): $(TARGET_CRTBEGIN_DYNAMIC_O) $(TARGET_CRTEND_O) $(addprefix $(TARGET_OUT_SHARED_LIBRARIES)/,$(GECKO_LIB_DEPS))
+$(LOCAL_BUILT_MODULE): $(TARGET_CRTBEGIN_DYNAMIC_O) $(TARGET_CRTEND_O) $(addprefix $(TARGET_OUT_SHARED_LIBRARIES)/,$(GECKO_LIB_DEPS)) $(GECKO_LIB_STATIC)
 	(echo "export GECKO_OBJDIR=$(abspath $(GECKO_OBJDIR))"; \
 	echo "export GECKO_TOOLS_PREFIX=$(abspath $(GECKO_TOOLS_PREFIX))"; \
 	echo "export PRODUCT_OUT=$(abspath $(PRODUCT_OUT))"; \
