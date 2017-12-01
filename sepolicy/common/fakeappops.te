@@ -10,6 +10,10 @@ binder_use(fakeappops)
 # allow fakeappops init:binder { transfer call };
 allow fakeappops system_server_service:service_manager add;
 allow fakeappops self:capability sys_nice;
+allow fakeappops dumpstate:fd use;
+allow fakeappops dumpstate:unix_stream_socket { rw_socket_perms };
+allow fakeappops devpts:chr_file rw_file_perms;
 
 # other domains that interact with fakeappops domain
 allow mediaserver fakeappops:binder { transfer call };
+allow dumpstate fakeappops:binder call;

@@ -20,4 +20,4 @@ allow bluetoothd property_socket:sock_file w_file_perms;
 allow bluetoothd sysfs:file w_file_perms;
 allow bluetoothd serial_device:chr_file rw_file_perms;
 allow bluetoothd input_device:dir r_dir_perms;
-allow bluetoothd uhid_device:chr_file w_file_perms;
+allow bluetoothd uhid_device:chr_file rw_file_perms;

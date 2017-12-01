@@ -45,6 +45,7 @@ allow b2g camera_data_file:file rw_file_perms;
 allow b2g camera_data_file:sock_file create_file_perms;
 allow b2g cgroup:dir create_dir_perms;
 allow b2g ctl_default_prop:property_service set;
+allow b2g ctl_dumpstate_prop:property_service set;
 allow b2g ctl_mdnsd_prop:property_service set;
 allow b2g dalvikcache_data_file:dir rw_dir_perms;
 allow b2g dalvikcache_profiles_data_file:dir rw_dir_perms;
@@ -57,6 +58,11 @@ allow b2g dhcp_data_file:file create_file_perms;
 allow b2g dhcp_prop:property_service set;
 allow b2g dnsproxyd_socket:sock_file write;
 allow b2g drm_data_file:dir rw_dir_perms;
+allow b2g dumpstate:dir create_dir_perms;
+allow b2g dumpstate:fd use;
+allow b2g dumpstate:file create_file_perms;
+allow b2g dumpstate:unix_stream_socket { connectto rw_stream_socket_perms };
+allow b2g dumpstate_socket:sock_file w_file_perms;
 allow b2g fuse:dir create_dir_perms;
 allow b2g fuse:file create_file_perms;
 allow b2g fwmarkd_socket:sock_file write;
@@ -73,7 +79,8 @@ allow b2g input_device:chr_file rw_file_perms;
 allow b2g input_device:dir r_dir_perms;
 allow b2g install_data_file:file r_file_perms;
 allow b2g kernel:dir r_dir_perms;
-allow b2g kernel:system syslog_read;
+allow b2g kernel:file r_file_perms;
+allow b2g kernel:system { syslog_read syslog_mod };
 allow b2g keychain_data_file:dir rw_dir_perms;
 allow b2g keychain_data_file:dir rw_dir_perms;
 allow b2g keystore_data_file:dir rw_dir_perms;
@@ -138,7 +145,9 @@ allow b2g sysfs_wake_lock:file rw_file_perms;
 allow b2g system_data_file:dir create_dir_perms;
 allow b2g system_data_file:file create_file_perms;
 allow b2g system_data_file:sock_file create_file_perms;
+allow b2g system_data_file:fifo_file create_file_perms;
 allow b2g system_file:file rx_file_perms;
+allow b2g system_wpa_socket:sock_file create_file_perms;
 allow b2g systemkeys_data_file:dir rw_dir_perms;
 allow b2g system_prop:property_service set;
 allow b2g system_radio_prop:property_service set;
@@ -196,7 +205,27 @@ allow b2g gpsd:unix_stream_socket connectto;
 
 allow b2g debug_prop:property_service set;
 allow b2g mtp_device:chr_file rw_file_perms;
-#allow b2g unlabeled:dir r_dir_perms;
+allow b2g audio_device:dir rw_dir_perms;
+allow b2g audio_device:chr_file create_file_perms;
+allow b2g tty_device:chr_file create_file_perms;
+allow b2g anr_data_file:dir create_dir_perms;
+allow b2g anr_data_file:file create_file_perms;
+allow b2g devpts:chr_file rw_file_perms;
+
+userdebug_or_eng(`
+allow b2g su:dir r_dir_perms;
+allow b2g su:file r_file_perms;
+')
+
+allow b2g servicemanager:dir r_dir_perms;
+allow b2g servicemanager:file r_file_perms;
+allow b2g tee:dir r_dir_perms;
+allow b2g tee:file r_file_perms;
+allow b2g vold:dir r_dir_perms;
+allow b2g vold:file r_file_perms;
+
+allow b2g unlabeled:dir rw_dir_perms;
+allow b2g unlabeled:file rw_file_perms;
 
 # other domains that interact with b2g domain
 
@@ -212,6 +241,10 @@ allow init b2g:unix_dgram_socket sendto;
 
 allow toolbox b2g_data_file:dir r_dir_perms;
 allow shell b2g_exec:file getattr;
+allow kernel b2g_data_file:file create_file_perms;
+allow kernel b2g:fd use;
+allow dumpstate b2g:binder call;
+allow gatekeeperd b2g:binder call;
 
 # config tethering IPv6 router mode
 allow b2g proc_net:file write;
