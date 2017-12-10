@@ -1,0 +1,3 @@
+# NFC
+/data/nfc(/.*)?                 u:object_r:nfc_data_file:s0
+#/dev/pn544                      u:object_r:nfc_device:s0
