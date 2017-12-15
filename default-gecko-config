@@ -27,6 +27,10 @@ if [ -f "$KAI_PUSH_KEY_FILE" ]; then
 ac_add_options --with-kaios-push-api-keyfile="$KAI_PUSH_KEY_FILE"
 fi
 
+if [ -f "$KAI_APPS_KEY_FILE" ]; then
+ac_add_options --with-kaios-apps-api-keyfile="$KAI_APPS_KEY_FILE"
+fi
+
 ac_add_options --enable-debug-symbols
 if [ "${B2G_DEBUG:-0}" != "0" ]; then
 ac_add_options --enable-debug
