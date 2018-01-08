@@ -38,7 +38,11 @@ allow b2g location_socket:sock_file rw_file_perms;
 allow b2g location_data_file:dir create_dir_perms;
 allow b2g location_data_file:fifo_file create_file_perms;
 allow b2g location_data_file:file create_file_perms;
+allow b2g avtimer_device:chr_file r_file_perms;
+allow b2g ims_socket:sock_file w_file_perms;
+allow b2g ims:unix_stream_socket connectto;
 
+allow ims b2g:fd use;
 allow perfd b2g:dir search;
 allow perfd b2g:file r_file_perms;
 allow qti_init_shell b2g_data_file:dir create_dir_perms;
