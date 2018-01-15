@@ -225,6 +225,7 @@ allow b2g vold:dir r_dir_perms;
 allow b2g vold:file r_file_perms;
 
 allow b2g block_device:dir r_dir_perms;
+allow b2g rtc_device:chr_file rw_file_perms;
 
 allow b2g unlabeled:dir rw_dir_perms;
 allow b2g unlabeled:file rw_file_perms;
