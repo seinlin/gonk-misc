@@ -29,7 +29,7 @@ allow b2g RIDL_socket:dir rw_dir_perms;
 allow b2g dts_data_file:dir rw_dir_perms;
 allow b2g qmuxd:unix_stream_socket connectto;
 allow b2g cnd_data_file:dir rw_dir_perms;
-allow b2g cnd_data_file:file getattr;
+allow b2g cnd_data_file:file rw_file_perms;
 allow b2g dpmd_data_file:dir rw_dir_perms;
 allow b2g time_data_file:dir rw_dir_perms;
 allow b2g time_data_file:file rw_file_perms;
