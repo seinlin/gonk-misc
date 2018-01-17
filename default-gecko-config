@@ -107,3 +107,7 @@ ac_add_options --disable-telemetry
 ac_add_options --disable-presentation
 ac_add_options --enable-embms
 ac_add_options --enable-fota
+
+if [ "$HAVE_TEE_SUI_SUPPORT" = "true" ]; then
+  ac_add_options --enable-tee-sui
+fi
