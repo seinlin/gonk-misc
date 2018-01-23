@@ -94,6 +94,14 @@ def add_revision(man_filename, b2g_root, output, force=False, tags=False, only_a
     tag for that repository.  Specifying force=True will cause revisions in the
     original manifest to be overwritten with computed ones"""
     doc = parse_manifest(man_filename)
+    for remove in doc.getElementsByTagName("remove-project"):
+        remove_name = remove.getAttribute('name')
+        for project in doc.getElementsByTagName("project"):
+            project_name = project.getAttribute('name')
+            if remove_name == project_name:
+                parentNode = project.parentNode
+                parentNode.removeChild(project)
+                break
     for project in doc.getElementsByTagName("project"):
         if project.getAttribute('revision') and not force:
             pass
