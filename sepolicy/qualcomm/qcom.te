@@ -41,6 +41,7 @@ allow b2g location_data_file:file create_file_perms;
 allow b2g avtimer_device:chr_file r_file_perms;
 allow b2g ims_socket:sock_file w_file_perms;
 allow b2g ims:unix_stream_socket connectto;
+allow b2g sensors_persist_file:dir r_dir_perms;
 
 allow ims b2g:fd use;
 allow perfd b2g:dir search;
