@@ -237,6 +237,7 @@ allow netd b2g:tcp_socket { read write setopt getopt };
 allow netd b2g:udp_socket { read write setopt getopt };
 
 allow wpa b2g:unix_dgram_socket sendto;
+allow wpa system_data_file:file open;
 
 allow bluetoothd b2g:unix_stream_socket connectto;
 allow init b2g:binder call;
