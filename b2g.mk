@@ -21,7 +21,6 @@ PRODUCT_PACKAGES += \
 	rild \
 	rilproxy \
 	oom-msg-logger \
-	api-daemon \
 	$(NULL)
 
 -include external/svox/pico/lang/all_pico_languages.mk

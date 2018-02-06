@@ -32,10 +32,6 @@ service radvd /system/bin/radvd -C /data/misc/radvd/radvd.conf \
     disabled
     oneshot
 
-service api-daemon /system/kaios/api-daemon /system/kaios/config.toml
-    class main
-    user root
-
 on post-fs-data
     mkdir /data/misc/radvd 0770 system system
 
