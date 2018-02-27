@@ -170,6 +170,10 @@ ifneq ($(wildcard $(REPO_INFO)),)
 ADDITIONAL_BUILD_PROPERTIES += ro.build.kaios_uid=$(shell cat $(REPO_INFO) | $(MD5SUM))
 endif
 
+# Apply menuconfig and save environment variables for exporting them later
+MENU_CONF := $(abspath $(LOCAL_PATH)/../external/menuconfig/gonk-misc-config.sh)
+MCONF_EXPORT := $(shell B2G_DIR=$(abspath $(LOCAL_PATH)/../) $(MENU_CONF))
+
 # Add system properties via menuconfig
 MCONF_PROPERTIES := external/menuconfig/custom-system.prop
 ifneq ($(wildcard $(MCONF_PROPERTIES)),)
@@ -382,6 +386,7 @@ $(LOCAL_BUILT_MODULE): $(TARGET_CRTBEGIN_DYNAMIC_O) $(TARGET_CRTEND_O) $(addpref
 	echo "export KAI_FONT_CONFIG_FILE=$(KAI_FONT_CONFIG_FILE)"; \
 	echo "export ENABLE_EMBMS=$(TARGET_ENABLE_EMBMS)"; \
 	) > .var.profile
+	$(MCONF_EXPORT) \
 	export CONFIGURE_ARGS="$(GECKO_CONFIGURE_ARGS)" && \
 	export GONK_PRODUCT="$(TARGET_DEVICE)" && \
 	export TARGET_ARCH="$(TARGET_ARCH)" && \
