@@ -133,6 +133,10 @@ $(call intermediates-dir-for,APPS,framework-res,,COMMON)/package-export.apk:
 
 ifneq ($(DISABLE_SOURCES_XML),true)
 ifneq (,$(realpath .repo/manifest.xml))
+REPO := $(shell which repo)
+ifeq (,$(REPO))
+REPO := ./repo
+endif
 #
 # Include a copy of the repo manifest that has the revisions used
 #
@@ -142,16 +146,13 @@ LOCAL_MODULE_TAGS  := optional
 LOCAL_MODULE_CLASS := DATA
 LOCAL_MODULE_PATH  := $(TARGET_OUT)
 
-ADD_REVISION := $(abspath $(LOCAL_PATH)/add-revision.py)
-
 include $(BUILD_PREBUILT)
 
 # Don't use dependencies on .repo/manifest.xml, since the result can
 # change even when .repo/manifest.xml doesn't.
 $(LOCAL_BUILT_MODULE): FORCE
 	mkdir -p $(@D)
-	python $(ADD_REVISION) --b2g-path . \
-		--tags .repo/manifest.xml --force --output $@
+	$(REPO) manifest -r --suppress-upstream-revision -o $@
 endif
 endif
 
