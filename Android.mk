@@ -253,7 +253,6 @@ ifneq (,$(EXPORT_BUILD_PREFS))
 endif
 
 	cd $(TARGET_OUT) && tar xvfz $(abspath $<)
-	test -f $(TARGET_OUT)/usr/icu/icudt56l.dat && ln -sf ../usr/icu/icudt56l.dat $(TARGET_OUT)/b2g/ || :
 
 ifeq ($(ENABLE_GLOBAL_PRELINK),1)
 	$(APRIORI)  \
