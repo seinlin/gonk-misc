@@ -1,0 +1,11 @@
+# api-daemon
+type api-daemon, domain;
+type api-daemon_exec, exec_type, file_type;
+
+init_daemon_domain(api-daemon)
+
+# audit2allow
+allow api-daemon self:tcp_socket create_stream_socket_perms;
+allow api-daemon self:capability net_raw;
+allow api-daemon node:tcp_socket node_bind;
+allow api-daemon port:tcp_socket name_bind;
