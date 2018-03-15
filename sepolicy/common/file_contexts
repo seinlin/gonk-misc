@@ -27,3 +27,8 @@
 /system/bin/pnscr               u:object_r:nfcd_exec:s0
 /system/bin/gps_test            u:object_r:gpsd_exec:s0
 #/system/bin/sensorsd            u:object_r:sensorsd_exec:s0
+
+#############################
+# KaiOS Daemon
+#
+/system/kaios/api-daemon        u:object_r:api-daemon_exec:s0
