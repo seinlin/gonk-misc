@@ -324,6 +324,14 @@ ifneq ($(wildcard external/libxml2),)
 GECKO_LIB_DEPS += libxml2.so
 endif
 
+ifneq ($(wildcard external/curl),)
+GECKO_LIB_DEPS += libcurl.so
+endif
+
+ifneq ($(wildcard external/c-ares),)
+GECKO_LIB_DEPS += libcares.so
+endif
+
 ifeq (1,$(filter 1,$(shell echo "$$(( $(PLATFORM_SDK_VERSION) >= 23 ))" )))
 GECKO_LIB_DEPS += libstdc++.so
 endif
