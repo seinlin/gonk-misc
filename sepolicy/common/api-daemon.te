@@ -5,7 +5,15 @@ type api-daemon_exec, exec_type, file_type;
 init_daemon_domain(api-daemon)
 
 # audit2allow
-allow api-daemon self:tcp_socket create_stream_socket_perms;
-allow api-daemon self:capability net_raw;
+allow api-daemon dnsproxyd_socket:sock_file w_file_perms;
+allow api-daemon fwmarkd_socket:sock_file w_file_perms;
+allow api-daemon netd:unix_stream_socket connectto;
 allow api-daemon node:tcp_socket node_bind;
-allow api-daemon port:tcp_socket name_bind;
+allow api-daemon port:tcp_socket { name_bind name_connect };
+allow api-daemon self:capability net_raw;
+allow api-daemon self:capability2 block_suspend;
+allow api-daemon self:tcp_socket create_stream_socket_perms;
+
+# other domains that interact with api-domain
+allow netd api-daemon:fd use;
+allow netd api-daemon:tcp_socket rw_socket_perms;
