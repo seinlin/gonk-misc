@@ -11,6 +11,7 @@
 
 # NFC
 #/data/nfc(/.*)?                 u:object_r:nfc_data_file:s0
+/dev/sec-nfc                    u:object_r:nfc_device:s0
 #/dev/nq-nci                     u:object_r:nfc_device:s0
 
 #############################
@@ -25,6 +26,7 @@
 /system/bin/bluetoothd          u:object_r:bluetoothd_exec:s0
 /system/bin/nfcd                u:object_r:nfcd_exec:s0
 /system/bin/pnscr               u:object_r:nfcd_exec:s0
+/system/bin/secnfc              u:object_r:nfcd_exec:s0
 /system/bin/gps_test            u:object_r:gpsd_exec:s0
 #/system/bin/sensorsd            u:object_r:sensorsd_exec:s0
 

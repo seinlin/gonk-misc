@@ -1,3 +1,4 @@
 #============= mediaserver ==============
 allow mediaserver bluetoothd:unix_stream_socket connectto;
 allow mediaserver b2g_data_file:file r_file_perms;
+allow mediaserver self:capability2 block_suspend;
