@@ -1,4 +1,4 @@
-
+import /init.logmanager.rc
 import /init.bluetooth.rc
 
 service gonksched /system/bin/gonksched
