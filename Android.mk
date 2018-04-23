@@ -307,6 +307,7 @@ GECKO_LIB_DEPS := \
 	libstagefright.so \
 	libstagefright_omx.so \
 	libsysutils.so \
+	libgabi++.so \
 	$(NULL)
 
 ifneq ($(wildcard external/dbus),)
