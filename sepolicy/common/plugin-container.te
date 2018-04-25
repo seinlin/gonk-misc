@@ -16,8 +16,8 @@ allow plugin-container mediaserver:binder { transfer call };
 allow plugin-container mediaserver:fd use;
 allow plugin-container self:process execmem;
 allow plugin-container servicemanager:binder call;
-allow plugin-container shell_data_file:file rw_file_perms;
-allow plugin-container shell_data_file:dir rw_dir_perms;
+allow plugin-container shell_data_file:file create_file_perms;
+allow plugin-container shell_data_file:dir create_dir_perms;
 
 # other domains interacting with plugin-container domain
 allow mediaserver plugin-container:binder { transfer call };
