@@ -16,7 +16,11 @@ unix_socket_connect(b2g, rild, rild)
 # force SELinux to keep environment variables when calling
 # execve(plugin-container,...) to preserve LD_PRELOAD which is
 # used to load libmozglue.so
-allow b2g plugin-container:process { noatsecure };
+allow b2g plugin-container:process { noatsecure signal setsched ptrace };
+allow b2g plugin-container:dir rw_dir_perms;
+allow b2g plugin-container:file rw_file_perms;
+allow b2g plugin-container:unix_stream_socket rw_stream_socket_perms;
+allow b2g plugin-container:fifo_file rw_file_perms;
 
 # Files created, inside a directory labeled with 'system_data_file'
 # (such as /data/local/), by a processes running with in the b2g context,
@@ -102,11 +106,6 @@ allow b2g net_data_file:file rw_file_perms;
 allow b2g net_radio_prop:property_service set;
 allow b2g node:tcp_socket { node_bind };
 allow b2g node:udp_socket { node_bind };
-allow b2g plugin-container:dir rw_dir_perms;
-allow b2g plugin-container:file rw_file_perms;
-allow b2g plugin-container:process { signal setsched };
-allow b2g plugin-container:unix_stream_socket rw_stream_socket_perms;
-allow b2g plugin-container:fifo_file rw_file_perms;
 allow b2g port:tcp_socket { name_connect name_bind node_bind };
 allow b2g port:udp_socket { name_bind node_bind };
 allow b2g powerctl_prop:property_service set;
