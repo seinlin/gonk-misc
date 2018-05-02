@@ -148,11 +148,11 @@ LOCAL_MODULE_PATH  := $(TARGET_OUT)
 
 include $(BUILD_PREBUILT)
 
-# Don't use dependencies on .repo/manifest.xml, since the result can
-# change even when .repo/manifest.xml doesn't.
+# Use the native comamnd provided by git-repo to create sources.xml.
+# The basic attributes that will be added into all depend on .repo/manifest.xml.
 $(LOCAL_BUILT_MODULE): FORCE
 	mkdir -p $(@D)
-	$(REPO) manifest -r --suppress-upstream-revision -o $@
+	$(REPO) manifest -r -o $@
 endif
 endif
 
