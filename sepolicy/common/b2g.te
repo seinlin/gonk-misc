@@ -164,6 +164,7 @@ allow b2g wifi_data_file:sock_file create_file_perms;
 allow b2g wpa_socket:dir rw_dir_perms;
 allow b2g wpa_socket:sock_file create_file_perms;
 allow b2g wpa:unix_dgram_socket sendto;
+allow b2g hostapd:unix_dgram_socket sendto;
 allow b2g zoneinfo_data_file:dir w_dir_perms;
 
 allow b2g bootchart_data_file:dir rw_dir_perms;
@@ -237,6 +238,7 @@ allow netd b2g:tcp_socket { read write setopt getopt };
 allow netd b2g:udp_socket { read write setopt getopt };
 
 allow wpa b2g:unix_dgram_socket sendto;
+allow hostapd b2g:unix_dgram_socket sendto;
 
 allow bluetoothd b2g:unix_stream_socket connectto;
 allow init b2g:binder call;
