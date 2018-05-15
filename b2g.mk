@@ -53,8 +53,3 @@ ifeq ($(ENABLE_RADVD),true)
 PRODUCT_PACKAGES += \
 	radvd
 endif
-PRODUCT_COPY_FILES += \
-        gonk-misc/fota_certs/bcab1d5d.0:system/etc/certs/bcab1d5d.0 \
-        gonk-misc/fota_certs/bb3ec629.0:system/etc/certs/bb3ec629.0 \
-        gonk-misc/fota_certs/219d9499.0:system/etc/certs/219d9499.0 \
-        gonk-misc/fota_certs/bc3f2570.0:system/etc/certs/bc3f2570.0
