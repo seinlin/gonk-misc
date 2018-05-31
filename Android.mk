@@ -172,7 +172,7 @@ endif
 
 # Apply menuconfig and save environment variables for exporting them later
 MENU_CONF := $(abspath $(LOCAL_PATH)/../external/menuconfig/gonk-misc-config.sh)
-MCONF_EXPORT := $(shell B2G_DIR=$(abspath $(LOCAL_PATH)/../) $(MENU_CONF))
+MCONF_EXPORT := $(shell B2G_DIR=$(abspath $(LOCAL_PATH)/../) GECKO_OBJDIR=$(GECKO_OBJDIR) $(MENU_CONF))
 
 # Add system properties via menuconfig
 MCONF_PROPERTIES := external/menuconfig/custom-system.prop
