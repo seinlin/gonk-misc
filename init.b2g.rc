@@ -1,5 +1,6 @@
 import /init.logmanager.rc
 import /init.bluetooth.rc
+import /init.ril.rc
 
 service gonksched /system/bin/gonksched
     class main
@@ -12,12 +13,6 @@ service fakeappops /system/bin/fakeappops
 service b2g /system/bin/b2g.sh
     class main
     onrestart restart media
-
-service rilproxy /system/bin/rilproxy
-    class main
-    socket rilproxy stream 660 root system
-    user root
-    group radio
 
 service nfcd /system/bin/nfcd
     disabled
