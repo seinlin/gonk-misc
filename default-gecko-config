@@ -39,6 +39,10 @@ if [ -f "$KAI_METRICS_KEY_FILE" ]; then
 ac_add_options --with-kaios-metrics-api-keyfile="$KAI_METRICS_KEY_FILE"
 fi
 
+if [ -f "$KAI_CRASHREPORTER_KEY_FILE" ]; then
+ac_add_options --with-kaios-crashreporter-api-keyfile="$KAI_CRASHREPORTER_KEY_FILE"
+fi
+
 if [ -n "$KAI_RELEASE_TAG" ]; then
 ac_add_options --with-kaios-release-tag="$KAI_RELEASE_TAG"
 fi
