@@ -1,0 +1,6 @@
+#============= install_recovery ==============
+allow install_recovery mnt_user_file:dir create_dir_perms;
+allow install_recovery mnt_user_file:file create_file_perms;
+allow install_recovery storage_file:dir create_dir_perms;
+allow install_recovery storage_file:lnk_file create_file_perms;
+allow install_recovery storage_file:file create_file_perms;
