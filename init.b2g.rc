@@ -27,7 +27,7 @@ service radvd /system/bin/radvd -C /data/misc/radvd/radvd.conf \
     disabled
     oneshot
 
-service api-daemon /system/kaios/api-daemon /system/kaios/config.toml
+service api-daemon /system/bin/api-daemon.sh
     class main
     user root
 

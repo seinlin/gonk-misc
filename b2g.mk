@@ -23,6 +23,7 @@ PRODUCT_PACKAGES += \
 	rilproxy \
 	oom-msg-logger \
 	api-daemon \
+	api-daemon.sh \
 	ads-sdk \
 	$(NULL)
 

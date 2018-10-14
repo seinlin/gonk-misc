@@ -34,3 +34,6 @@
 # KaiOS Daemon
 #
 /system/kaios/api-daemon        u:object_r:api-daemon_exec:s0
+/system/bin/api-daemon.sh       u:object_r:api-daemon_exec:s0
+/data/local/service/api-daemon  u:object_r:api-daemon_exec:s0
+/data/local/service(/.*)?       u:object_r:api_data_file:s0

@@ -4,3 +4,4 @@ allow toolbox shell_data_file:dir create_dir_perms;
 allow toolbox shell_data_file:file create_file_perms;
 allow toolbox init:tcp_socket rw_socket_perms;
 allow toolbox b2g_data_file:dir create_dir_perms;
+allow toolbox api_data_file:dir create_dir_perms;

@@ -16,7 +16,20 @@ allow api-daemon port:tcp_socket { name_bind name_connect };
 allow api-daemon self:capability net_raw;
 allow api-daemon self:capability2 block_suspend;
 allow api-daemon self:tcp_socket create_stream_socket_perms;
+allow api-daemon init:unix_stream_socket connectto;
+allow api-daemon system_data_file:dir create_dir_perms;
+allow api-daemon system_data_file:file create_file_perms;
+allow api-daemon system_data_file:file x_file_perms;
+allow api-daemon api-daemon_exec:file rx_file_perms;
+allow api-daemon api_data_file:file r_file_perms;
+allow api-daemon api_data_file:dir r_dir_perms;
+allow api-daemon system_file:file rx_file_perms;
+allow api-daemon shell_exec:file rx_file_perms;
+allow api-daemon toolbox_exec:file rx_file_perms;
+allow api-daemon property_socket:sock_file w_file_perms;
 
 # other domains that interact with api-domain
+allow shell api-daemon_exec:file getattr;
+allow kernel api_data_file:file create_file_perms;
 allow netd api-daemon:fd use;
 allow netd api-daemon:tcp_socket rw_socket_perms;
