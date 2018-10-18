@@ -7,6 +7,7 @@ init_daemon_domain(api-daemon)
 # audit2allow
 allow api-daemon dnsproxyd_socket:sock_file w_file_perms;
 allow api-daemon fwmarkd_socket:sock_file w_file_perms;
+allow api-daemon property_socket:sock_file w_file_perms;
 allow api-daemon netd:unix_stream_socket connectto;
 allow api-daemon node:tcp_socket node_bind;
 allow api-daemon port:tcp_socket { name_bind name_connect };
