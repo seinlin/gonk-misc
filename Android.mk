@@ -12,6 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+ifneq ($(VENDOR_OVERRIDE_GONK_MISC),true)
+
 LOCAL_PATH:= $(call my-dir)
 
 gonk_misc_LOCAL_PATH := $(LOCAL_PATH)
@@ -641,3 +643,5 @@ $(PRODUCT_OUT)/$(B2G_FOTA_UPDATE_FULLIMG_ZIP): $(B2G_FOTA_COMMON_TARGETS)
 	    --fota-type fullimg \
 	    $(B2G_FOTA_FULLIMG_PARTS) \
 	    --output $@
+
+endif
