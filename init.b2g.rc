@@ -31,10 +31,6 @@ service api-daemon /system/bin/api-daemon.sh
     class main
     user root
 
-service updater-daemon /system/bin/updater-daemon.sh
-    class main
-    user root
-
 on post-fs-data
     mkdir /data/misc/radvd 0770 system system
 

@@ -24,8 +24,6 @@ PRODUCT_PACKAGES += \
 	oom-msg-logger \
 	api-daemon \
 	api-daemon.sh \
-	updater-daemon \
-	updater-daemon.sh \
 	ads-sdk \
 	$(NULL)
 
