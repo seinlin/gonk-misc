@@ -163,7 +163,7 @@ ifneq ($(DISABLE_SOURCES_XML),true)
 ifneq (,$(realpath .repo/manifest.xml))
 REPO := $(shell which repo)
 ifeq (,$(REPO))
-REPO := ./repo
+REPO := ./.repo/repo/repo
 endif
 #
 # Include a copy of the repo manifest that has the revisions used
