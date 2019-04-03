@@ -37,12 +37,12 @@ ifeq ($(PLATFORM_SDK_VERSION),15)
 endif
 endif
 
-ifneq ($(TARGET_PROVIDES_INIT_RIL_RC),true)
+ifneq ($(TARGET_PROVIDES_INIT_RILPROXY_RC),true)
 include $(CLEAR_VARS)
-LOCAL_MODULE       := init.ril.rc
+LOCAL_MODULE       := init.rilproxy.rc
 LOCAL_MODULE_TAGS  := optional
 LOCAL_MODULE_CLASS := ETC
-LOCAL_SRC_FILES    := init.ril.rc
+LOCAL_SRC_FILES    := init.rilproxy.rc
 LOCAL_MODULE_PATH  := $(TARGET_ROOT_OUT)
 include $(BUILD_PREBUILT)
 endif

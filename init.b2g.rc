@@ -1,6 +1,6 @@
 import /init.logmanager.rc
 import /init.bluetooth.rc
-import /init.ril.rc
+import /init.rilproxy.rc
 
 service gonksched /system/bin/gonksched
     class main

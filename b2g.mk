@@ -16,11 +16,9 @@ PRODUCT_PACKAGES += \
 	gecko \
 	init.rc \
 	init.b2g.rc \
-	init.ril.rc \
 	killer \
 	libttspico \
 	rild \
-	rilproxy \
 	oom-msg-logger \
 	api-daemon \
 	api-daemon.sh \
@@ -56,4 +54,10 @@ endif
 ifeq ($(ENABLE_RADVD),true)
 PRODUCT_PACKAGES += \
 	radvd
+endif
+
+ifneq ($(TARGET_PROVIDES_INIT_RILPROXY_RC),true)
+PRODUCT_PACKAGES += \
+    init.rilproxy.rc \
+    rilproxy
 endif

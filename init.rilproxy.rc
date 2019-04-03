@@ -2,4 +2,4 @@ service rilproxy /system/bin/rilproxy
     class main
     socket rilproxy stream 660 root system
     user root
-    group radio
+    group system radio
