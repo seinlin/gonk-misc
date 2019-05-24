@@ -11,10 +11,12 @@ allow api-daemon property_socket:sock_file w_file_perms;
 allow api-daemon default_prop:property_service set;
 allow api-daemon init:unix_stream_socket connectto;
 allow api-daemon netd:unix_stream_socket connectto;
+allow api-daemon node:udp_socket node_bind;
+allow api-daemon port:udp_socket { name_bind node_bind };
 allow api-daemon node:tcp_socket node_bind;
 allow api-daemon port:tcp_socket { name_bind name_connect };
-allow api-daemon self:capability net_raw;
-allow api-daemon self:capability2 block_suspend;
+allow api-daemon self:capability { sys_boot sys_resource sys_nice sys_admin sys_module sys_time net_raw net_bind_service net_admin setgid fsetid kill chown setuid fowner dac_override };
+allow api-daemon self:capability2 { block_suspend syslog };
 allow api-daemon self:tcp_socket create_stream_socket_perms;
 allow api-daemon self:udp_socket create_stream_socket_perms;
 allow api-daemon self:netlink_route_socket { create_stream_socket_perms nlmsg_read nlmsg_write };
@@ -34,6 +36,13 @@ allow api-daemon socket_device:dir rw_dir_perms;
 allow api-daemon socket_device:sock_file create_file_perms;
 allow api-daemon net_data_file:dir search;
 allow api-daemon ctl_default_prop:property_service set;
+allow api-daemon b2g_data_file:dir r_dir_perms;
+allow api-daemon b2g_data_file:file r_file_perms;
+allow api-daemon domain:dir r_dir_perms;
+allow api-daemon domain:file r_file_perms;
+allow api-daemon domain:lnk_file r_file_perms;
+allow api-daemon domain:process getattr;
+allow api-daemon kernel:system { syslog_read syslog_mod };
 
 # other domains that interact with api-domain
 allow shell api-daemon_exec:file getattr;
