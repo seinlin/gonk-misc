@@ -378,6 +378,10 @@ ifneq ($(wildcard external/libkika),)
 GECKO_LIB_DEPS += libIQQILib.so
 endif
 
+ifneq ($(wildcard external/libtouchpal),)
+GECKO_LIB_DEPS += libtouchpal.so
+endif
+
 ifneq ($(strip $(SHOW_COMMANDS)),)
 SKIP_DASH_S = 1
 endif
