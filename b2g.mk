@@ -61,3 +61,15 @@ PRODUCT_PACKAGES += \
     init.rilproxy.rc \
     rilproxy
 endif
+
+ifeq ($(IME_ENGINE), xt9)
+GECKO_CONFIGURE_ARGS += --enable-nuance-xt9
+else ifeq ($(IME_ENGINE), rt9)
+GECKO_CONFIGURE_ARGS += --enable-reverie-rt9
+else ifeq ($(IME_ENGINE), kika)
+GECKO_CONFIGURE_ARGS += --enable-kika-iqqi
+-include external/libkika/kika.mk
+else ifeq ($(IME_ENGINE), touchpal)
+GECKO_CONFIGURE_ARGS += --enable-touchpal
+-include external/libtouchpal/touchpal.mk
+endif

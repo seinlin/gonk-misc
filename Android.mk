@@ -366,19 +366,13 @@ ifeq (1,$(filter 1,$(shell echo "$$(( $(PLATFORM_SDK_VERSION) >= 23 ))" )))
 GECKO_LIB_DEPS += libstdc++.so
 endif
 
-ifneq ($(wildcard external/libxt9),)
+ifeq ($(IME_ENGINE), xt9)
 GECKO_LIB_DEPS += libxt9.so
-endif
-
-ifneq ($(wildcard external/librt9),)
+else ifeq ($(IME_ENGINE), rt9)
 GECKO_LIB_DEPS += librt9.so
-endif
-
-ifneq ($(wildcard external/libkika),)
+else ifeq ($(IME_ENGINE), kika)
 GECKO_LIB_DEPS += libIQQILib.so
-endif
-
-ifneq ($(wildcard external/libtouchpal),)
+else ifeq ($(IME_ENGINE), touchpal)
 GECKO_LIB_DEPS += libtouchpal.so
 endif
 
