@@ -1,0 +1,4 @@
+# required for WebIDE
+allow adbd b2g_data_file:sock_file w_file_perms;
+allow adbd system_data_file:sock_file w_file_perms;
+allow adbd b2g:unix_stream_socket connectto;
