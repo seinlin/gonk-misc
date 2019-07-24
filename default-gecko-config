@@ -134,3 +134,7 @@ fi
 if [ "$ENABLE_EMBMS" = "true" ]; then
   ac_add_options --enable-embms
 fi
+
+if [ "$HAVE_TOUCH_SUPPORT" = "true" ]; then
+  ac_add_options --enable-touch-support
+fi
