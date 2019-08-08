@@ -38,7 +38,8 @@ endif
 
 ifeq ($(ENABLE_DEFAULT_BOOTANIMATION),true)
 PRODUCT_COPY_FILES += \
-	gonk-misc/bootanimation.zip:system/media/bootanimation.zip
+	gonk-misc/bootanimation.zip:system/media/bootanimation.zip \
+	gonk-misc/poweron-sound.ogg:system/media/poweron-sound.ogg
 endif
 
 ifeq ($(ENABLE_LIBRECOVERY),true)
