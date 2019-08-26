@@ -86,6 +86,7 @@ $(LOCAL_BUILT_MODULE): $(TARGET_CRTBEGIN_DYNAMIC_O) $(TARGET_CRTEND_O) $(addpref
 	echo "export GONK_PRODUCT_NAME=$(TARGET_DEVICE)"; \
 	echo "export GONK_PATH=$(abspath .)"; \
 	echo "export PLATFORM_VERSION=$(PLATFORM_SDK_VERSION)"; \
+	unset CC_WRAPPER && unset CXX_WRAPPER && \
 	export GONK_PATH="$(abspath .)" && \
 	export GONK_PRODUCT_NAME="$(TARGET_DEVICE)" && \
 	export PLATFORM_VERSION="$(PLATFORM_SDK_VERSION)" && \
