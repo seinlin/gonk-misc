@@ -76,4 +76,10 @@ if [ "$ENABLE_LOG" == "1" ]; then
   export NSPR_LOG_MODULES=$LOG_FILTER
 fi
 
+if [ -f "/system/bin/fakesurfaceflinger" ]; then
+  exec "/system/bin/fakesurfaceflinger" &
+  wait
+  echo "Setting hwc is done."
+fi
+
 exec $COMMAND_PREFIX "$B2G_DIR/b2g"
