@@ -1,0 +1,3 @@
+allow dhcp dhcp:udp_socket ioctl;
+allow dhcp proc_net:file { open read getattr };
+allow dhcp system_file:dir { open read };

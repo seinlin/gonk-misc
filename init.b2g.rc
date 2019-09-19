@@ -37,6 +37,17 @@ service updater-daemon /system/bin/updater-daemon.sh
 
 on post-fs-data
     mkdir /data/misc/radvd 0770 system system
+    mkdir /data/misc/dhcp-6.8.2 0770 dhcp dhcp
+    chown dhcp dhcp /data/misc/dhcp-6.8.2
+
+on property:init.svc.wpa_supplicant=stopped
+    stop dhcpcd
+
+service dhcpcd_wlan0 /system/bin/dhcpcd-6.8.2 -ABKL \
+    -f /system/etc/dhcpcd-6.8.2/dhcpcd.conf wlan0
+    group system dhcp
+    disabled
+    oneshot
 
 on boot
     exec /system/bin/rm -r /data/local/tmp/*

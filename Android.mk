@@ -36,6 +36,37 @@ LOCAL_MODULE_PATH  := $(TARGET_OUT_EXECUTABLES)
 include $(BUILD_PREBUILT)
 
 #
+# Dhcpcd
+#
+include $(CLEAR_VARS)
+LOCAL_MODULE := dhcpcd.conf
+LOCAL_MODULE_CLASS := ETC
+LOCAL_MODULE_PATH := $(TARGET_OUT)/etc/dhcpcd-6.8.2
+LOCAL_SRC_FILES := dhcpcd/$(LOCAL_MODULE)
+include $(BUILD_PREBUILT)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE := dhcpcd-run-hooks
+LOCAL_MODULE_CLASS := EXECUTABLES
+LOCAL_MODULE_PATH := $(TARGET_OUT)/etc/dhcpcd-6.8.2
+LOCAL_SRC_FILES := dhcpcd/$(LOCAL_MODULE)
+include $(BUILD_PREBUILT)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE := 20-dns.conf
+LOCAL_MODULE_CLASS := ETC
+LOCAL_MODULE_PATH := $(TARGET_OUT)/etc/dhcpcd-6.8.2/dhcpcd-hooks
+LOCAL_SRC_FILES := dhcpcd/$(LOCAL_MODULE)
+include $(BUILD_PREBUILT)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE := 95-configured
+LOCAL_MODULE_CLASS := ETC
+LOCAL_MODULE_PATH := $(TARGET_OUT)/etc/dhcpcd-6.8.2/dhcpcd-hooks
+LOCAL_SRC_FILES := dhcpcd/$(LOCAL_MODULE)
+include $(BUILD_PREBUILT)
+
+#
 # Gecko glue
 #
 
