@@ -47,7 +47,7 @@ Table::multi_col_header(const char* val, int start_col, int end_col)
 void
 Table::add(const char* val, Alignment align /* = ALIGN_RIGHT */)
 {
-  add_fmt_align("%s", align, val);
+  add_fmt_align(align, "%s", val);
 }
 
 void
@@ -59,7 +59,7 @@ Table::add(const string& val, Alignment align /* = ALIGN_RIGHT */)
 void
 Table::add(int val, Alignment align /* = ALIGN_RIGHT */)
 {
-  add_fmt_align("%d", align, val);
+  add_fmt_align(align, "%d", val);
 }
 
 void
@@ -68,24 +68,24 @@ Table::add_fmt(const char* fmt, ...)
   va_list va;
   va_start(va, fmt);
 
-  add_vfmt_align(fmt, ALIGN_RIGHT, va);
+  add_vfmt_align(ALIGN_RIGHT, fmt, va);
 
   va_end(va);
 }
 
 void
-Table::add_fmt_align(const char* fmt, Alignment align, ...)
+Table::add_fmt_align(Alignment align, const char* fmt, ...)
 {
   va_list va;
-  va_start(va, align);
+  va_start(va, fmt);
 
-  add_vfmt_align(fmt, align, va);
+  add_vfmt_align(align, fmt, va);
 
   va_end(va);
 }
 
 void
-Table::add_vfmt_align(const char* fmt, Alignment align, va_list va)
+Table::add_vfmt_align(Alignment align, const char* fmt, va_list va)
 {
   char str[128];
   vsnprintf(str, sizeof(str), fmt, va);

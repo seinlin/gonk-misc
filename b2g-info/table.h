@@ -88,7 +88,7 @@ public:
   void add(const std::string& val, Alignment align = ALIGN_RIGHT);
   void add(int val, Alignment align = ALIGN_RIGHT);
   void add_fmt(const char* format, ...);
-  void add_fmt_align(const char* format, Alignment align, ...);
+  void add_fmt_align(Alignment align, const char* format, ...);
 
   /**
    * Add a whole-row delimiter to the table after the current row.
@@ -143,6 +143,6 @@ private:
   int m_multi_col_header_start;
   int m_multi_col_header_end;
 
-  void add_vfmt_align(const char* fmt, Alignment align, va_list va);
+  void add_vfmt_align(Alignment align, const char* fmt, va_list va);
   void print_spaces(int n);
 };
