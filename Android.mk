@@ -88,10 +88,7 @@ $(LOCAL_INSTALLED_MODULE): $(LOCAL_BUILT_MODULE)
 	cd $(TARGET_OUT) && tar xvfz $(abspath $<)
 
 GECKO_LIB_DEPS := \
-	libc.so \
-	libdl.so \
 	liblog.so \
-	libm.so \
 	libmedia.so \
 	libmtp.so \
 	libsensorservice.so \
@@ -111,6 +108,15 @@ GECKO_LIB_DEPS := \
 	libsuspend.so \
 	libhidlbase.so \
 	$(NULL)
+
+# For APEX_MODULE_LIBS
+ifeq (1,$(filter 1,$(shell echo "$$(( $(PLATFORM_SDK_VERSION) < 29 ))" )))
+GECKO_LIB_DEPS += \
+	libc.so \
+	libdl.so \
+	libm.so \
+	$(NULL)
+endif
 
 .PHONY: $(LOCAL_BUILT_MODULE)
 $(LOCAL_BUILT_MODULE): $(TARGET_CRTBEGIN_DYNAMIC_O) $(TARGET_CRTEND_O) $(addprefix $(TARGET_OUT_SHARED_LIBRARIES)/,$(GECKO_LIB_DEPS)) $(GECKO_LIB_STATIC)
