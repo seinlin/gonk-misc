@@ -65,7 +65,7 @@ if [ -f "$B2G_DIR/libmozsandbox.so" ]; then
 fi
 export LD_PRELOAD
 
-export LD_LIBRARY_PATH=/vendor/lib:/system/lib:"$B2G_DIR"
+export LD_LIBRARY_PATH=/vendor/lib:/system/lib:"$B2G_DIR":/apex/com.android.runtime/lib
 export GRE_HOME="$B2G_DIR"
 
 # Run in jar logging mode if needed.
