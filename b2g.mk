@@ -16,3 +16,11 @@ PRODUCT_PACKAGES += \
     dhcpcd-run-hooks \
     20-dns.conf \
     95-configured
+
+
+ifeq ($(ENABLE_DEFAULT_BOOTANIMATION),true)
+PRODUCT_COPY_FILES += \
+        gonk-misc/bootanimation.zip:system/media/bootanimation.zip \
+        gonk-misc/poweron-sound.ogg:system/media/poweron-sound.ogg
+endif
+
