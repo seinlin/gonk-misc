@@ -4,6 +4,10 @@ PRODUCT_PACKAGES += \
 	init.b2g.rc \
 	libcarthage \
 	gecko \
+	api-daemon \
+	api-daemon.sh \
+	updater-daemon \
+	updater-daemon.sh \
 	$(NULL)
 
 
