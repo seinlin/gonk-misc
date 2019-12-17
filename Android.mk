@@ -98,6 +98,12 @@ LOCAL_MODULE_TAGS := optional
 LOCAL_MODULE_PATH := $(TARGET_OUT)
 include $(BUILD_SYSTEM)/base_rules.mk
 
+B2G_SYSTEM_APPS ?= 0
+# Preserve the /system/b2g/defaults as its contents will be populated before this rule.
+PRESERVE_DIRS := defaults
+ifeq ($(B2G_SYSTEM_APPS), 1)
+PRESERVE_DIRS += webapps
+endif
 $(LOCAL_INSTALLED_MODULE): $(LOCAL_BUILT_MODULE)
 	@echo Install dir: $(TARGET_OUT)/b2g
 	rm -rf $(filter-out $(addprefix $(TARGET_OUT)/b2g/,$(PRESERVE_DIRS)),$(wildcard $(TARGET_OUT)/b2g/*))
