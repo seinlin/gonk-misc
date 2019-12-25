@@ -2,12 +2,14 @@ PRODUCT_PACKAGES += \
 	b2g-info \
 	b2g.sh \
 	init.b2g.rc \
+	init.bluetooth.rc \
 	libcarthage \
 	gecko \
 	api-daemon \
 	api-daemon.sh \
 	updater-daemon \
 	updater-daemon.sh \
+	bluetoothd \
 	$(NULL)
 
 
