@@ -156,6 +156,14 @@ GECKO_LIB_DEPS := \
 	android.hardware.gnss@1.0.so \
 	android.hardware.radio@1.0.so \
 	android.hardware.vibrator@1.0.so \
+	android.hardware.wifi@1.0.so \
+	android.hardware.wifi@1.1.so \
+	android.hardware.wifi@1.2.so \
+	android.hardware.wifi@1.3.so \
+	android.hardware.wifi.supplicant@1.0.so \
+	android.hardware.wifi.supplicant@1.1.so \
+	android.hardware.wifi.supplicant@1.2.so \
+	libwificond_ipc_shared.so \
 	netd_aidl_interface-V2-cpp.so \
 	netd_event_listener_interface-V1-cpp.so \
 	dnsresolver_aidl_interface-V2-cpp.so \
