@@ -15,6 +15,7 @@ PRODUCT_PACKAGES += \
 	updater-daemon.sh \
 	bluetoothd \
 	librecovery \
+	gaia \
 	$(NULL)
 
 
