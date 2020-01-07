@@ -138,6 +138,11 @@ GECKO_LIB_DEPS += \
 	libdl.so \
 	libm.so \
 	$(NULL)
+else
+GECKO_LIB_DEPS += \
+	android.hardware.gnss@1.1.so \
+	android.hardware.gnss@2.0.so \
+	$(NULL)
 endif
 
 .PHONY: $(LOCAL_BUILT_MODULE)
