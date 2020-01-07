@@ -118,8 +118,6 @@ GECKO_LIB_DEPS := \
 	libstagefright_omx.so \
 	libsysutils.so \
 	android.hardware.gnss@1.0.so \
-	android.hardware.gnss@1.1.so \
-	android.hardware.gnss@2.0.so \
 	android.hardware.vibrator@1.0.so \
 	libc++.so \
 	libbinder.so \
@@ -139,11 +137,6 @@ GECKO_LIB_DEPS += \
 	libc.so \
 	libdl.so \
 	libm.so \
-	$(NULL)
-else
-GECKO_LIB_DEPS += \
-	android.hardware.gnss@1.1.so \
-	android.hardware.gnss@2.0.so \
 	$(NULL)
 endif
 
