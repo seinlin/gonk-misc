@@ -2,11 +2,19 @@ import /init.logmanager.rc
 import /init.bluetooth.rc
 import /init.rilproxy.rc
 
-service gonksched /system/bin/gonksched
+service fakeappops /system/bin/fakeappops
     class main
     user root
 
-service fakeappops /system/bin/fakeappops
+service fakeSensorPrivacy /system/bin/fakeSensorPrivacy
+    class main
+    user root
+
+service gonkProcessInfo /system/bin/gonkProcessInfo
+    class main
+    user root
+
+service gonksched /system/bin/gonksched
     class main
     user root
 

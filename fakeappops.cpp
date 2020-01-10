@@ -20,7 +20,6 @@
 #include <binder/IServiceManager.h>
 #include <binder/IAppOpsService.h>
 
-
 namespace android {
 
 class FakeAppOpsService :
@@ -36,13 +35,18 @@ public:
     virtual int32_t noteOperation(int32_t code, int32_t uid, const String16& packageName);
     virtual int32_t startOperation(int32_t code, int32_t uid, const String16& packageName);
     virtual void finishOperation(int32_t code, int32_t uid, const String16& packageName);
-
+#if ANDROID_VERSION >= 29
+    virtual int32_t startOperation(const sp<IBinder>& token, int32_t code, int32_t uid,
+            const String16& packageName, bool startIfModeDefault);
+    virtual int32_t checkAudioOperation(int32_t code, int32_t usage, int32_t uid,
+            const String16& packageName);
+#else
     virtual int32_t startOperation(const sp<IBinder>& token, int32_t code, int32_t uid,
             const String16& packageName);
+#endif
     virtual void finishOperation(const sp<IBinder>& token, int32_t code, int32_t uid,
             const String16& packageName);
     virtual sp<IBinder> getToken(const sp<IBinder>& clientToken);
-
     virtual void startWatchingMode(int32_t op, const String16& packageName,
             const sp<IAppOpsCallback>& callback);
     virtual void stopWatchingMode(const sp<IAppOpsCallback>& callback);
@@ -64,59 +68,118 @@ FakeAppOpsService::~FakeAppOpsService()
 int32_t
 FakeAppOpsService::checkOperation(int32_t code, int32_t uid, const String16& packageName)
 {
+    (void)code;
+    (void)uid;
+    (void)packageName;
+
     return MODE_ALLOWED;
 }
 
 int32_t
 FakeAppOpsService::noteOperation(int32_t code, int32_t uid, const String16& packageName)
 {
+    (void)code;
+    (void)uid;
+    (void)packageName;
+
     return MODE_ALLOWED;
 }
 
 int32_t
 FakeAppOpsService::startOperation(int32_t code, int32_t uid, const String16& packageName)
 {
+    (void)code;
+    (void)uid;
+    (void)packageName;
+
+    return MODE_ALLOWED;
+}
+
+#if ANDROID_VERSION >= 29
+int32_t
+FakeAppOpsService::startOperation(const sp<IBinder>& token, int32_t code, int32_t uid,
+    const String16& packageName, bool startIfModeDefault)
+{
+    (void)token;
+    (void)code;
+    (void)uid;
+    (void)packageName;
+    (void)startIfModeDefault;
+
     return MODE_ALLOWED;
 }
 
 int32_t
+FakeAppOpsService::checkAudioOperation(int32_t code, int32_t usage, int32_t uid,
+    const String16& packageName)
+{
+    (void)code;
+    (void)usage;
+    (void)uid;
+    (void)packageName;
+
+    return MODE_ALLOWED;
+}
+#else
+int32_t
 FakeAppOpsService::startOperation(const sp<IBinder>& token, int32_t code, int32_t uid,
     const String16& packageName)
 {
+    (void)token;
+    (void)code;
+    (void)uid;
+    (void)packageName;
+
     return MODE_ALLOWED;
 }
+#endif
 
 void
 FakeAppOpsService::finishOperation(int32_t code, int32_t uid, const String16& packageName)
 {
+    (void)code;
+    (void)uid;
+    (void)packageName;
 }
 
 void
 FakeAppOpsService::finishOperation(const sp<IBinder>& token, int32_t code, int32_t uid,
     const String16& packageName)
 {
+    (void)token;
+    (void)code;
+    (void)uid;
+    (void)packageName;
 }
 
 sp<IBinder>
 FakeAppOpsService::getToken(const sp<IBinder>& clientToken)
 {
-  return NULL;
+    (void)clientToken;
+
+    return NULL;
 }
 
 void
 FakeAppOpsService::startWatchingMode(int32_t op, const String16& packageName, const sp<IAppOpsCallback>& callback)
 {
+    (void)op;
+    (void)packageName;
+    (void)callback;
 }
 
 void
 FakeAppOpsService::stopWatchingMode(const sp<IAppOpsCallback>& callback)
 {
+    (void)callback;
 }
 
 #if ANDROID_VERSION >= 23
 int32_t
 FakeAppOpsService::permissionToOpCode(const String16& permission)
 {
+    (void)permission;
+
     return MODE_ALLOWED;
 }
 #endif
@@ -126,6 +189,9 @@ using namespace android;
 
 int main(int argc, char **argv)
 {
+    (void)argc;
+    (void)argv;
+
     FakeAppOpsService::publishAndJoinThreadPool();
     return 0;
 }

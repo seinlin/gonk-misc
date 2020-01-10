@@ -82,6 +82,42 @@ LOCAL_MODULE_PATH := $(TARGET_OUT)/etc/dhcpcd-6.8.2/dhcpcd-hooks
 LOCAL_SRC_FILES := dhcpcd/$(LOCAL_MODULE)
 include $(BUILD_PREBUILT)
 
+include $(CLEAR_VARS)
+LOCAL_MODULE       := fakeappops
+LOCAL_MODULE_TAGS  := optional
+LOCAL_MODULE_CLASS := EXECUTABLES
+LOCAL_SRC_FILES    := fakeappops.cpp
+LOCAL_CFLAGS := -DANDROID_VERSION=$(PLATFORM_SDK_VERSION)
+LOCAL_SHARED_LIBRARIES := libbinder libutils
+include $(BUILD_EXECUTABLE)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE       := fakeSensorPrivacy
+LOCAL_MODULE_TAGS  := optional
+LOCAL_MODULE_CLASS := EXECUTABLES
+LOCAL_SRC_FILES    := fakeSensorPrivacy.cpp
+LOCAL_SHARED_LIBRARIES := libbinder libutils libsensorprivacy
+include $(BUILD_EXECUTABLE)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE       := gonkProcessInfo
+LOCAL_MODULE_TAGS  := optional
+LOCAL_MODULE_CLASS := EXECUTABLES
+LOCAL_SRC_FILES    := gonkProcessInfo.cpp
+LOCAL_SHARED_LIBRARIES := libbinder libutils
+include $(BUILD_EXECUTABLE)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE       := gonksched
+LOCAL_MODULE_TAGS  := optional
+LOCAL_MODULE_CLASS := EXECUTABLES
+LOCAL_SRC_FILES    := gonksched.cpp
+LOCAL_SHARED_LIBRARIES := libbinder libutils libcutils libmediautils libprocessgroup
+LOCAL_CFLAGS := -DANDROID_VERSION=$(PLATFORM_SDK_VERSION)
+
+LOCAL_C_INCLUDES := frameworks/av/media/utils
+include $(BUILD_EXECUTABLE)
+
 #
 # Gecko glue
 #

@@ -39,7 +39,13 @@ public:
 
     virtual status_t dump(int fd, const Vector<String16>& args);
     int requestPriority(int32_t pid, int32_t tid, int32_t prio);
+#if ANDROID_VERSION >= 29
+    virtual int requestPriority(int32_t pid, int32_t tid,
+                    int32_t prio, bool isForApp, bool asynchronous);
+    virtual int requestCpusetBoost(bool enable, const sp<IInterface>& client);
+#else
     virtual int requestPriority(int32_t pid, int32_t tid, int32_t prio, bool async);
+#endif
     virtual status_t onTransact(uint32_t code, const Parcel& data, Parcel* reply, uint32_t flags);
 };
 
@@ -55,6 +61,9 @@ GonkSchedulePolicyService::~GonkSchedulePolicyService()
 status_t
 GonkSchedulePolicyService::dump(int fd, const Vector<String16>& args)
 {
+    (void)fd;
+    (void)args;
+
     return NO_ERROR;
 }
 
@@ -79,7 +88,7 @@ GonkSchedulePolicyService::requestPriority(int32_t pid, int32_t tid, int32_t pri
     if (ipcState->getCallingUid() != AID_MEDIA ||
         prio < PRIORITY_MIN || prio > PRIORITY_MAX ||
         !tidBelongsToPid(tid, pid))
-        return -1; /* PackageManager.PERMISSION_DENIED */
+        return -EPERM; /* PackageManager.PERMISSION_DENIED */
 
     set_sched_policy(tid, ipcState->getCallingPid() == pid ?
                           SP_AUDIO_SYS : SP_AUDIO_APP);
@@ -87,16 +96,39 @@ GonkSchedulePolicyService::requestPriority(int32_t pid, int32_t tid, int32_t pri
     param.sched_priority = prio;
     int rc = sched_setscheduler(tid, SCHED_FIFO, &param);
     if (rc)
-        return -1;
+        return -EPERM;
 
-    return 0; /* PackageManger.PERMISSION_GRANTED */
+    return NO_ERROR; /* PackageManger.PERMISSION_GRANTED */
+}
+
+#if ANDROID_VERSION >= 29
+int
+GonkSchedulePolicyService::requestPriority(int32_t pid, int32_t tid, int32_t prio,
+    bool isForApp, bool asynchronous)
+{
+    (void)isForApp;
+    (void)asynchronous;
+
+    return requestPriority(pid, tid, prio);
 }
 
 int
+GonkSchedulePolicyService::requestCpusetBoost(bool enable, const sp<IInterface>& client)
+{
+    (void)enable;
+    (void)client;
+
+    return NO_ERROR;
+}
+#else
+int
 GonkSchedulePolicyService::requestPriority(int32_t pid, int32_t tid, int32_t prio, bool async)
 {
+    (void)async;
+
     return requestPriority(pid, tid, prio);
 }
+#endif
 
 enum {
     REQUEST_PRIORITY_TRANSACTION = IBinder::FIRST_CALL_TRANSACTION,
@@ -111,7 +143,12 @@ GonkSchedulePolicyService::onTransact(uint32_t code, const Parcel& data, Parcel*
         int32_t pid = data.readInt32();
         int32_t tid = data.readInt32();
         int32_t prio = data.readInt32();
-        requestPriority(pid, tid, prio);
+    #if ANDROID_VERSION >= 29
+        data.readBool();
+    #endif
+        status_t result = requestPriority(pid, tid, prio);
+        reply->writeNoException();
+        reply->writeInt32(result);
         return NO_ERROR;
         break;
     }
@@ -125,6 +162,9 @@ using namespace android;
 
 int main(int argc, char **argv)
 {
+    (void)argc;
+    (void)argv;
+
     GonkSchedulePolicyService::publishAndJoinThreadPool(true);
     return 0;
 }

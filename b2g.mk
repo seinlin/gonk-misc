@@ -1,6 +1,10 @@
 PRODUCT_PACKAGES += \
 	b2g-info \
 	b2g.sh \
+	fakeappops \
+	fakeSensorPrivacy \
+	gonkProcessInfo \
+	gonksched \
 	init.b2g.rc \
 	init.bluetooth.rc \
 	libcarthage \
