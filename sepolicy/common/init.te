@@ -2,3 +2,8 @@
 allow init init:rawip_socket { create setopt getopt ioctl write read };
 allow init init:netlink_route_socket { create bind };
 allow init b2g_data_file:file ioctl;
+
+# Netd/DnsResolver binder
+allow init netd_service:service_manager find;
+allow init netd:binder call;
+allow init netd:unix_stream_socket connectto;
