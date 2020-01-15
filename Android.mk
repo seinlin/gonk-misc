@@ -118,6 +118,7 @@ GECKO_LIB_DEPS := \
 	libstagefright_omx.so \
 	libsysutils.so \
 	android.hardware.gnss@1.0.so \
+	android.hardware.radio@1.0.so \
 	android.hardware.vibrator@1.0.so \
 	libc++.so \
 	libbinder.so \
