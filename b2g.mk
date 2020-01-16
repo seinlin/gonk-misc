@@ -14,6 +14,7 @@ PRODUCT_PACKAGES += \
 	updater-daemon \
 	updater-daemon.sh \
 	bluetoothd \
+	librecovery \
 	$(NULL)
 
 
@@ -34,3 +35,5 @@ PRODUCT_COPY_FILES += \
         gonk-misc/poweron-sound.ogg:system/media/poweron-sound.ogg
 endif
 
+# Enabled build librecovery.
+ENABLE_LIBRECOVERY := true
