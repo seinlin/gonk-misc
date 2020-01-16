@@ -67,11 +67,7 @@ GonkProcessInfoService::getProcessStatesAndOomScoresFromPids( size_t length,
                                                       /*out*/ int32_t* states,
                                                       /*out*/ int32_t* scores) {
     // sanity check for parameters
-    int32_t pidsLength = sizeof(pids)/sizeof(int32_t);
-    int32_t statesLength = sizeof(states)/sizeof(int32_t);
-    int32_t scoresLength = sizeof(pids)/sizeof(int32_t);
-    if (length <= 0 || pidsLength != statesLength ||
-        (scores && statesLength != scoresLength)) {
+    if (length <= 0 || !pids || !states) {
         return -ENOSYS;
     }
 
