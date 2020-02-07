@@ -26,8 +26,6 @@ if [ "$DEBUG" == "1" ]; then
   elif [ "$COREDUMP" == "b2g" ]; then
     ulimit -c -1
   fi
-
-  export MOZ_MARIONETTE="1"
 fi
 
 if [ ! -d /system/b2g ]; then
