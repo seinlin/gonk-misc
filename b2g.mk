@@ -29,6 +29,10 @@ PRODUCT_PACKAGES += \
     20-dns.conf \
     95-configured
 
+ifeq ($(ENABLE_RADVD),true)
+PRODUCT_PACKAGES += \
+        radvd
+endif
 
 ifeq ($(ENABLE_DEFAULT_BOOTANIMATION),true)
 PRODUCT_COPY_FILES += \
