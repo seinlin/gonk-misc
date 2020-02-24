@@ -18,7 +18,7 @@ for arg in "$@"
     esac
   done
 
-toolbox ps $args | (
+toybox ps -A $args | (
   IFS= read header
   new_hdr="APPLICATION    SEC"
   if [ "${report_oom}" == "1" ]; then

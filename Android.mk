@@ -51,6 +51,14 @@ LOCAL_SRC_FILES    := updater-daemon.sh
 LOCAL_MODULE_PATH  := $(TARGET_OUT_EXECUTABLES)
 include $(BUILD_PREBUILT)
 
+include $(CLEAR_VARS)
+LOCAL_MODULE       := b2g-ps
+LOCAL_MODULE_TAGS  := optional
+LOCAL_MODULE_CLASS := DATA
+LOCAL_SRC_FILES    := b2g-ps
+LOCAL_MODULE_PATH  := $(TARGET_OUT_EXECUTABLES)
+include $(BUILD_PREBUILT)
+
 #
 # Dhcpcd
 #

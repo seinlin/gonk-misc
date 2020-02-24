@@ -1,5 +1,6 @@
 PRODUCT_PACKAGES += \
 	b2g-info \
+        b2g-ps \
 	b2g.sh \
 	fakeappops \
 	fakeSensorPrivacy \
