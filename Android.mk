@@ -209,10 +209,16 @@ $(LOCAL_BUILT_MODULE): $(TARGET_CRTBEGIN_DYNAMIC_O) $(TARGET_CRTEND_O) $(addpref
 	echo "export GONK_PRODUCT_NAME=$(TARGET_DEVICE)"; \
 	echo "export GONK_PATH=$(abspath .)"; \
 	echo "export PLATFORM_VERSION=$(PLATFORM_SDK_VERSION)"; \
+	echo "export TARGET_ARCH=$(TARGET_ARCH)"; \
+	echo "export TARGET_ARCH_VARIANT=$(TARGET_ARCH_VARIANT)"; \
+	echo "export TARGET_CPU_VARIANT=$(TARGET_CPU_VARIANT)"; \
 	unset CC_WRAPPER && unset CXX_WRAPPER && \
 	export GONK_PATH="$(abspath .)" && \
 	export GONK_PRODUCT_NAME="$(TARGET_DEVICE)" && \
 	export PLATFORM_VERSION="$(PLATFORM_SDK_VERSION)" && \
+	export TARGET_ARCH="$(TARGET_ARCH)" && \
+	export TARGET_ARCH_VARIANT="$(TARGET_ARCH_VARIANT)" && \
+	export TARGET_CPU_VARIANT="$(TARGET_CPU_VARIANT)" && \
 	(cd gecko ; sh build-b2g.sh) && \
 	(cd gecko ; sh build-b2g.sh package) && \
 	mkdir -p $(@D) && cp $(GECKO_OBJDIR)/dist/b2g-*.tar.gz $@
