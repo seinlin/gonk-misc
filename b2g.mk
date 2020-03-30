@@ -4,6 +4,7 @@ PRODUCT_PACKAGES += \
 	b2g.sh \
 	fakeappops \
 	fakeSensorPrivacy \
+	fakePackageManagerNative \
 	gonkProcessInfo \
 	gonksched \
 	init.b2g.rc \

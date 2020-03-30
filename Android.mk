@@ -108,6 +108,14 @@ LOCAL_SHARED_LIBRARIES := libbinder libutils libsensorprivacy
 include $(BUILD_EXECUTABLE)
 
 include $(CLEAR_VARS)
+LOCAL_MODULE       := fakePackageManagerNative
+LOCAL_MODULE_TAGS  := optional
+LOCAL_MODULE_CLASS := EXECUTABLES
+LOCAL_SRC_FILES    := fakePackageManagerNative.cpp
+LOCAL_SHARED_LIBRARIES := libbinder libutils
+include $(BUILD_EXECUTABLE)
+
+include $(CLEAR_VARS)
 LOCAL_MODULE       := gonkProcessInfo
 LOCAL_MODULE_TAGS  := optional
 LOCAL_MODULE_CLASS := EXECUTABLES

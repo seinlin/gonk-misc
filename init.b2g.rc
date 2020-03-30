@@ -10,6 +10,10 @@ service fakeSensorPrivacy /system/bin/fakeSensorPrivacy
     class main
     user root
 
+service fakePackageManagerNative /system/bin/fakePackageManagerNative
+    class main
+    user root
+
 service gonkProcessInfo /system/bin/gonkProcessInfo
     class main
     user root
