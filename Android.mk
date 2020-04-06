@@ -221,6 +221,7 @@ $(LOCAL_BUILT_MODULE): $(TARGET_CRTBEGIN_DYNAMIC_O) $(TARGET_CRTEND_O) $(addpref
 	echo "export TARGET_ARCH_VARIANT=$(TARGET_ARCH_VARIANT)"; \
 	echo "export TARGET_CPU_VARIANT=$(TARGET_CPU_VARIANT)"; \
 	unset CC_WRAPPER && unset CXX_WRAPPER && \
+	export GECKO_OBJDIR="$(abspath $(GECKO_OBJDIR))" && \
 	export GONK_PATH="$(abspath .)" && \
 	export GONK_PRODUCT_NAME="$(TARGET_DEVICE)" && \
 	export PLATFORM_VERSION="$(PLATFORM_SDK_VERSION)" && \
