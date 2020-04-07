@@ -18,6 +18,7 @@ PRODUCT_PACKAGES += \
 	bluetoothd \
 	librecovery \
 	gaia \
+	sources.xml \
 	$(NULL)
 
 

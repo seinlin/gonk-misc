@@ -232,3 +232,30 @@ $(LOCAL_BUILT_MODULE): $(TARGET_CRTBEGIN_DYNAMIC_O) $(TARGET_CRTEND_O) $(addpref
 	(cd gecko ; $(SHELL) build-b2g.sh package) && \
 	mkdir -p $(@D) && cp $(GECKO_OBJDIR)/dist/b2g-*.tar.gz $@
 
+# Include a copy of the repo manifest that has the revisions used
+ifneq ($(DISABLE_SOURCES_XML),true)
+ifneq (,$(realpath .repo/manifest.xml))
+REPO := $(shell which repo)
+ifeq (,$(REPO))
+REPO := ./.repo/repo/repo
+endif
+
+include $(CLEAR_VARS)
+LOCAL_MODULE       := sources.xml
+LOCAL_MODULE_TAGS  := optional
+LOCAL_MODULE_CLASS := DATA
+LOCAL_MODULE_PATH  := $(TARGET_OUT)
+
+include $(BUILD_SYSTEM)/base_rules.mk
+
+# Use the native comamnd provided by git-repo to create sources.xml.
+# The basic attributes that will be added into all depend on .repo/manifest.xml.
+$(LOCAL_BUILT_MODULE):
+	mkdir -p $(@D)
+	$(REPO) manifest -r -o $@
+
+# this dependency ensure the above rule will be executed if module is built
+$(LOCAL_INSTALLED_MODULE) : $(LOCAL_BUILT_MODULE)
+	$(copy-file-to-new-target)
+endif
+endif
