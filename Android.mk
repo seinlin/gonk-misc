@@ -156,10 +156,20 @@ PRESERVE_DIRS := defaults
 ifeq ($(B2G_SYSTEM_APPS), 1)
 PRESERVE_DIRS += webapps
 endif
-$(LOCAL_INSTALLED_MODULE): $(LOCAL_BUILT_MODULE)
+
+$(LOCAL_INSTALLED_MODULE) : $(LOCAL_BUILT_MODULE)
 	@echo Install dir: $(TARGET_OUT)/b2g
 	rm -rf $(filter-out $(addprefix $(TARGET_OUT)/b2g/,$(PRESERVE_DIRS)),$(wildcard $(TARGET_OUT)/b2g/*))
 	cd $(TARGET_OUT) && tar xvfz $(abspath $<)
+ifneq ($(EXPORT_DEVICE_PREFS),)
+	cp -n $(EXPORT_DEVICE_PREFS)/*.js $(TARGET_OUT)/b2g/defaults/pref/
+endif
+ifneq ($(EXPORT_DEVICE_USER_BUILD_PREFS),)
+	cp -n $(EXPORT_DEVICE_USER_BUILD_PREFS) $(TARGET_OUT)/b2g/defaults/pref/
+endif
+ifneq ($(EXPORT_BUILD_PREFS),)
+	cp -n $(EXPORT_BUILD_PREFS) $(TARGET_OUT)/b2g/defaults/pref/
+endif
 
 GECKO_LIB_DEPS := \
 	liblog.so \
