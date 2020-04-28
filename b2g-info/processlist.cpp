@@ -77,6 +77,13 @@ ProcessList::main_process()
   const vector<Process*>& processes = unordered_b2g_processes();
   for (vector<Process*>::const_iterator it = processes.begin();
        it != processes.end(); ++it) {
+
+    // The api-daemon and updater are never considered as the main process.
+    if ((*it)->exe() == "/data/local/service/api-daemon/api-daemon" ||
+        (*it)->exe() == "/data/local/service/updater/updater-daemon") {
+	    continue;
+    }
+
     // Check to so if this processes parent is contained in the b2g_processes
     pid_t it_ppid = (*it)->ppid();
     vector<Process*>::const_iterator it2;
@@ -139,14 +146,16 @@ ProcessList::processes_classify()
   // We could find child processes by looking for processes whose ppid matches
   // the main process's pid, but this requires reading /proc/<pid>/stat for
   // every process on the system.  It's a bit faster just to look for processes
-  // whose |exe|s are "/system/b2g/plugin-container" or "/system/b2g/b2g".  As
-  // an added bonus, this will work properly with nested content processes.
-
+  // whose |exe|s are "/system/b2g/b2g".
+  // As an added bonus, this will work properly with nested content processes.
+  // We also add the api-daemon and updater-daemon process to the our list of
+  // interesting processes.
   const vector<Process*>& processes = all_processes();
   for (vector<Process*>::const_iterator it = processes.begin();
        it != processes.end(); ++it) {
-    if ((*it)->exe() == "/system/b2g/plugin-container" ||
-        (*it)->exe() == "/system/b2g/b2g") {
+    if ((*it)->exe() == "/system/b2g/b2g" ||
+	(*it)->exe() == "/data/local/service/api-daemon/api-daemon" ||
+	(*it)->exe() == "/data/local/service/updater/updater-daemon") {
       m_unordered_b2g_processes.push_back(*it);
       (*it)->set_lite_meminfo(false);
     } else if ((*it)->exe_exist()){
