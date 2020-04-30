@@ -209,6 +209,7 @@ GECKO_LIB_DEPS := \
 	libgui.so \
 	libsuspend.so \
 	libhidlbase.so \
+	libvold_binder_shared.so \
 	$(NULL)
 
 # For APEX_MODULE_LIBS
