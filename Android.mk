@@ -144,6 +144,7 @@ ifeq (,$(GECKO_OBJDIR))
 GECKO_OBJDIR := $(TARGET_OUT_INTERMEDIATES)/objdir-gecko
 endif
 
+-include prebuilt-b2g/Android.mk
 LOCAL_MODULE := gecko
 LOCAL_MODULE_CLASS := DATA
 LOCAL_MODULE_TAGS := optional
@@ -151,6 +152,7 @@ LOCAL_MODULE_PATH := $(TARGET_OUT)
 include $(BUILD_SYSTEM)/base_rules.mk
 
 B2G_SYSTEM_APPS ?= 0
+USE_PREBUILT_B2G ?= 0
 # Preserve the /system/b2g/defaults as its contents will be populated before this rule.
 PRESERVE_DIRS := defaults
 ifeq ($(B2G_SYSTEM_APPS), 1)
@@ -225,6 +227,10 @@ endif
 
 .PHONY: $(LOCAL_BUILT_MODULE)
 $(LOCAL_BUILT_MODULE): $(TARGET_CRTBEGIN_DYNAMIC_O) $(TARGET_CRTEND_O) $(addprefix $(TARGET_OUT_SHARED_LIBRARIES)/,$(GECKO_LIB_DEPS)) $(GECKO_LIB_STATIC)
+ifeq ($(USE_PREBUILT_B2G),1)
+	@echo -e "\033[0;33m ==== Use prebuilt gecko ==== \033[0m";
+	mkdir -p $(@D) && cp $(abspath $(PREFERRED_B2G)) $@
+else
 	echo "export GECKO_OBJDIR=$(abspath $(GECKO_OBJDIR))"; \
 	echo "export GONK_PRODUCT_NAME=$(TARGET_DEVICE)"; \
 	echo "export GONK_PATH=$(abspath .)"; \
@@ -243,6 +249,7 @@ $(LOCAL_BUILT_MODULE): $(TARGET_CRTBEGIN_DYNAMIC_O) $(TARGET_CRTEND_O) $(addpref
 	(cd gecko ; $(SHELL) build-b2g.sh) && \
 	(cd gecko ; $(SHELL) build-b2g.sh package) && \
 	mkdir -p $(@D) && cp $(GECKO_OBJDIR)/dist/b2g-*.tar.gz $@
+endif
 
 # Include a copy of the repo manifest that has the revisions used
 ifneq ($(DISABLE_SOURCES_XML),true)
