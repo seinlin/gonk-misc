@@ -59,13 +59,18 @@ if [ -f "$B2G_DIR/libdmd.so" ]; then
   LD_PRELOAD="$B2G_DIR/libdmd.so $LD_PRELOAD"
   export DMD="1"
 fi
-if [ -f "$B2G_DIR/libmozsandbox.so" ]; then
-    echo "Running with Sandbox."
-    LD_PRELOAD="$B2G_DIR/libmozsandbox.so $LD_PRELOAD"
-fi
+#if [ -f "$B2G_DIR/libmozsandbox.so" ]; then
+#    echo "Running with Sandbox."
+#    LD_PRELOAD="$B2G_DIR/libmozsandbox.so $LD_PRELOAD"
+#fi
 export LD_PRELOAD
 
-export LD_LIBRARY_PATH=/vendor/lib:/system/lib:"$B2G_DIR":/apex/com.android.runtime/lib
+LIBDIR="lib"
+if [ -d "/system/lib64" ]; then
+  LIBDIR="lib64"
+fi;
+
+export LD_LIBRARY_PATH=/vendor/$LIBDIR:/system/$LIBDIR:"$B2G_DIR":/apex/com.android.runtime/$LIBDIR:/system/apex/com.android.runtime.debug/$LIBDIR
 export GRE_HOME="$B2G_DIR"
 
 # Run in jar logging mode if needed.
