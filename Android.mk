@@ -239,6 +239,7 @@ else
 	echo "export TARGET_ARCH=$(TARGET_ARCH)"; \
 	echo "export TARGET_ARCH_VARIANT=$(TARGET_ARCH_VARIANT)"; \
 	echo "export TARGET_CPU_VARIANT=$(TARGET_CPU_VARIANT)"; \
+	echo "export PRODUCT_MANUFACTURER=$(PRODUCT_MANUFACTURER)"; \
 	unset CC_WRAPPER && unset CXX_WRAPPER && \
 	export GECKO_OBJDIR="$(abspath $(GECKO_OBJDIR))" && \
 	export GONK_PATH="$(abspath .)" && \
@@ -247,6 +248,7 @@ else
 	export TARGET_ARCH="$(TARGET_ARCH)" && \
 	export TARGET_ARCH_VARIANT="$(TARGET_ARCH_VARIANT)" && \
 	export TARGET_CPU_VARIANT="$(TARGET_CPU_VARIANT)" && \
+	export PRODUCT_MANUFACTURER="$(PRODUCT_MANUFACTURER)" && \
 	(cd gecko ; $(SHELL) build-b2g.sh) && \
 	(cd gecko ; $(SHELL) build-b2g.sh package) && \
 	mkdir -p $(@D) && cp $(GECKO_OBJDIR)/dist/b2g-*.tar.gz $@
