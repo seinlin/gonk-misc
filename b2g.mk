@@ -46,3 +46,5 @@ endif
 
 # Enabled build librecovery.
 ENABLE_LIBRECOVERY := true
+
+$(call inherit-product-if-exists, gaia/gaia.mk)
