@@ -33,7 +33,9 @@ toybox ps -A $args | (
     pid_user[${pid}]="${user}"
     pid_ppid[${pid}]="${ppid}"
     pid_rest[${pid}]="${rest}"
-    if [ "${rest/*b2g*/b2g}" = "b2g" ]; then
+    if [ "${rest/*b2g*/b2g}" = "b2g" ] ||
+       [ "${rest/*api-daemon*/api-daemon}" = "api-daemon" ] ||
+       [ "${rest/*updater*/updater-daemon}" = "updater-daemon" ]; then
         b2g[${pid}]=1
     fi
   done

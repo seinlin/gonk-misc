@@ -45,7 +45,9 @@ procrank $args | (
   echo "${new_hdr} ${header}"
 
   while IFS= read line; do
-    if [ "${line/*b2g*/b2g}" = "b2g" ]; then
+    if [ "${line/*b2g*/b2g}" = "b2g" ] ||
+       [ "${line/*api-daemon*/api-daemon}" = "api-daemon" ] ||
+       [ "${line/*updater*/updater-daemon}" = "updater-daemon" ]; then
       echo "${line}" | (
         read pid rest;
         comm="$(cat /proc/${pid}/comm)                "
