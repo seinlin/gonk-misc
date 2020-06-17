@@ -249,6 +249,7 @@ else
 	echo "export TARGET_CPU_VARIANT=$(TARGET_CPU_VARIANT)"; \
 	echo "export PRODUCT_MANUFACTURER=$(PRODUCT_MANUFACTURER)"; \
 	echo "export MOZ_DISABLE_LTO=$(MOZ_DISABLE_LTO)"; \
+	echo "export HOST_OS=$(HOST_OS)";	\
 	unset CC_WRAPPER && unset CXX_WRAPPER && \
 	export GECKO_OBJDIR="$(abspath $(GECKO_OBJDIR))" && \
 	export GONK_PATH="$(abspath .)" && \
@@ -259,6 +260,7 @@ else
 	export TARGET_CPU_VARIANT="$(TARGET_CPU_VARIANT)" && \
 	export PRODUCT_MANUFACTURER="$(PRODUCT_MANUFACTURER)" && \
 	export MOZ_DISABLE_LTO="$(MOZ_DISABLE_LTO)" && \
+	export HOST_OS="$(HOST_OS)" && \
 	(cd gecko ; $(SHELL) build-b2g.sh) && \
 	(cd gecko ; $(SHELL) build-b2g.sh package) && \
 	mkdir -p $(@D) && cp $(GECKO_OBJDIR)/dist/b2g-*.tar.gz $@
