@@ -48,3 +48,4 @@ endif
 ENABLE_LIBRECOVERY := true
 
 $(call inherit-product-if-exists, gaia/gaia.mk)
+$(call inherit-product-if-exists, external/svox/pico/lang/all_pico_languages.mk)
