@@ -273,7 +273,7 @@ void print_lmk_params()
   table.add("notify_trigger");
   table.add_fmt("%d KB", pages_to_kb(notify_pages));
   table.start_row();
-  table.add("noitfy_trigger_active");
+  table.add("notify_trigger_active");
   table.add_fmt("%d   ", notify_trigger_active);
   table.start_row();
   table.print_with_indent(2);
