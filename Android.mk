@@ -272,6 +272,10 @@ else
 	mkdir -p $(@D) && cp $(GECKO_OBJDIR)/dist/b2g-*.tar.gz $@
 endif
 
+.PHONY: buildsymbols
+buildsymbols:
+	$(MAKE) -C $(GECKO_OBJDIR) $@ TARGET_OUT_UNSTRIPPED="$(abspath $(TARGET_OUT_UNSTRIPPED))"
+
 # Include a copy of the repo manifest that has the revisions used
 ifneq ($(DISABLE_SOURCES_XML),true)
 ifneq (,$(realpath .repo/manifest.xml))
