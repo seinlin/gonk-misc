@@ -3,6 +3,7 @@ PRODUCT_PACKAGES += \
 	b2g-ps \
 	b2g-procrank \
 	b2g.sh \
+	b2gkillerd \
 	fakeappops \
 	fakeSensorPrivacy \
 	fakePackageManagerNative \

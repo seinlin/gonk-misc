@@ -142,6 +142,13 @@ LOCAL_CFLAGS := -DANDROID_VERSION=$(PLATFORM_SDK_VERSION)
 LOCAL_C_INCLUDES := frameworks/av/media/utils
 include $(BUILD_EXECUTABLE)
 
+include $(CLEAR_VARS)
+LOCAL_MODULE	   := b2gkillerd
+LOCAL_MODULE_TAGS  := optional
+LCOAL_MODULE_CLASS := EXECUTABLES
+LOCAL_SRC_FILES	   := b2gkillerd.cpp
+include $(BUILD_EXECUTABLE)
+
 #
 # Gecko glue
 #
