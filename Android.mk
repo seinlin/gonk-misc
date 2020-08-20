@@ -231,6 +231,7 @@ GECKO_LIB_DEPS += \
 	$(NULL)
 else
 GECKO_LIB_DEPS += \
+	android.hardware.gnss.visibility_control@1.0.so \
 	android.hardware.gnss@1.1.so \
 	android.hardware.gnss@2.0.so \
 	$(NULL)
