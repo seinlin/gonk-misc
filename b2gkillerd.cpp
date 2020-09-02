@@ -396,6 +396,12 @@ class ProcessKiller {
   constexpr static double DIRTY_MEM_WEIGHT = 0.2;
 
   /**
+   * For the case of zram, swapped pages take memory too.  They are
+   * compressed, so it shoud multiply a weight.
+   */
+  constexpr static double SWAPPED_MEM_WEIGHT = 0.5;
+
+  /**
    * Add proccess processes to a ProcessList.  The are found from
    * cgroups of b2g/fg, b2g/bg, and b2g/bg/try_to_keep.  They are
    * belong to foreground, background, and try_to_keep processes.
@@ -446,7 +452,10 @@ class ProcessKiller {
     //
     // Shared memory is not counted here for that it may not make more
     // available memory from shared memory to kill a process.
-    double score = aPInfo.mPrivateClean + aPInfo.mPrivateDirty * DIRTY_MEM_WEIGHT;
+    double score =
+      aPInfo.mPrivateClean +
+      aPInfo.mPrivateDirty * DIRTY_MEM_WEIGHT +
+      aPInfo.mVmSwap * SWAPPED_MEM_WEIGHT;
     return score;
   }
 
