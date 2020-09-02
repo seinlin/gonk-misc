@@ -77,3 +77,4 @@ on boot
     mkdir /dev/memcg/b2g/fg
     mkdir /dev/memcg/b2g/bg
     mkdir /dev/memcg/b2g/bg/try_to_keep
+    mkdir /dev/memcg/b2g/default

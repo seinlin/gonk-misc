@@ -91,4 +91,7 @@ if [ -f "/system/bin/fakesurfaceflinger" ]; then
   echo "Setting hwc is done."
 fi
 
+# Put the parent process to the /b2g/default cgroup.
+echo $$ > /dev/memcg/b2g/default/cgroup.procs
+
 exec $COMMAND_PREFIX "$B2G_DIR/b2g"

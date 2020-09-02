@@ -6,6 +6,8 @@
 #include <sys/types.h>
 #include <time.h>
 #include <unistd.h>
+#include <sys/un.h>
+#include <sys/socket.h>
 
 #include <math.h>
 #include <stdio.h>
@@ -27,8 +29,10 @@
  *        killer -----> MemPressureCounter
  *          |
  *          |
- *          v
- *     ProcessKiller -----> ProcessList
+ *          +---> ProcessKiller -----> ProcessList
+ *          |
+ *          |
+ *          +---> KickGCCC()
  *
  * MemPressureWatcher:
  *
@@ -51,6 +55,10 @@
  *
  *   It pick one of background process to kill, according types and
  *   memory usages.
+ *
+ * KickGCCC:
+ *
+ *   Send a signal to the parent process to start GC/CC.
  */
 
 
@@ -71,6 +79,7 @@
 #define FG_CGROUP B2G_CGROUP "fg/"
 #define BG_CGROUP B2G_CGROUP "bg/"
 #define TRY_TO_KEEP_CGROUP BG_CGROUP "try_to_keep/"
+#define DEFAULT_CGROUP B2G_CGROUP "default/"
 
 #define MEMORY_PRESSURE_LEVEL_PATH CGROUP_FS "memory.pressure_level"
 #define EVENT_CONTROL CGROUP_FS "cgroup.event_control"
@@ -119,11 +128,14 @@ public:
 private:
   double factor;
   double datum;
-  clock_t last_tm;
+  timespec last_tm;
 
   double DiffLastTimestamp() {
-    clock_t tm = clock();
-    double diff_sec = (double)(tm - last_tm) / CLOCKS_PER_SEC;
+    timespec tm;
+    clock_gettime(CLOCK_REALTIME_COARSE, &tm);
+    double diff_sec =
+      (double)(tm.tv_sec - last_tm.tv_sec) +
+      (double)(tm.tv_nsec - last_tm.tv_nsec) * 1.0e-9;
     last_tm = tm;
 
     return diff_sec;
@@ -493,6 +505,12 @@ public:
 #define MEM_PRESSURE_THRESHOLD 3.0
 #define PRESSURE_LEVEL "medium"
 
+// Trigger GC/CC only when the memory pressure is between max and min
+// threshold below.
+#define GC_CC_MAX 2.5
+#define GC_CC_MIN 1.5
+
+
 /**
  * Watch at memory pressure events.
  *
@@ -568,6 +586,109 @@ private:
 };
 
 
+#define KICK_GCCC_PATH "/dev/socket/kickgccc"
+
+class GCCCKicker {
+  static constexpr double kMinKickInterval = 0.5;
+
+  static int FindB2GParent() {
+    int parent = -1;
+
+    size_t commsz = 128;
+    char *comm = (char*)malloc(commsz);
+
+    size_t lsz = 128;
+    char *line = (char*)malloc(lsz);
+    FILE *fp = fopen(DEFAULT_CGROUP "cgroup.procs", "r");
+    ASSERT(fp != nullptr, "Can't open parent cgroup");
+    while (getline(&line, &lsz, fp) > 0) {
+      int pid = atoi(line);
+      if (pid <= 0) continue;
+
+      snprintf(comm, commsz, "/proc/%d/comm", pid);
+      FILE *commfp = fopen(comm, "r");
+      if (commfp == nullptr) continue;
+      if (getline(&comm, &commsz, commfp) <= 0) continue;
+      if (strcmp(comm, "MainThread\n")) continue;
+      // The B2G parent process
+      parent = pid;
+      break;
+    }
+    fclose(fp);
+    free(line);
+    free(comm);
+
+    return parent;
+  }
+
+  /**
+   * Send a message to the "/dev/socket/kickgccc" socket.
+   */
+  static void DoKickGCCC(int aParent) {
+    struct sockaddr_un addr;
+    addr.sun_family = AF_UNIX;
+    strncpy(addr.sun_path, KICK_GCCC_PATH, strlen(KICK_GCCC_PATH) + 1);
+
+    for (int i = 0; i < 2; i++) {
+      do {
+        if (mSO == -1) {
+          mSO = socket(AF_UNIX, SOCK_DGRAM, 0);
+          if (mSO < 0) {
+            perror("socket");
+            return;
+          }
+          if (connect(mSO, (struct sockaddr*)&addr, sizeof(addr)) < 0) {
+            perror("connect");
+            fprintf(stderr, "Fail to connect to " KICK_GCCC_PATH "\n");
+            break;
+          }
+        }
+
+        if (send(mSO, &aParent, sizeof(aParent), 0) != sizeof(aParent)) {
+          perror("send");
+          fprintf(stderr, "Fail to send to " KICK_GCCC_PATH "\n");
+          break;
+        }
+
+        return;
+      } while(0);
+
+      close(mSO);
+      mSO = -1;
+    }
+  }
+
+public:
+  // Request the parent process to kick GC/CC.
+  static void Kick() {
+    // Consecutive kicks should be longer than |kMinKickInterval| seconds.
+    timespec tm;
+    clock_gettime(CLOCK_REALTIME_COARSE, &tm);
+    double tm_diff = (double)(tm.tv_sec - mLastTm.tv_sec) +
+      (double)(tm.tv_nsec - mLastTm.tv_nsec) * 1e-9;
+    if (tm_diff < kMinKickInterval) {
+      return;
+    }
+
+    auto parent = FindB2GParent();
+    if (parent != -1) {
+      DoKickGCCC(parent);
+      printf("b2gkillerd has kicked %d\n", parent);
+      mLastTm = tm;
+    } else {
+      printf("Can not find the parent process of B2G.\n");
+    }
+  }
+
+private:
+  static int mSO;
+  static timespec mLastTm;
+};
+
+int GCCCKicker::mSO = -1;
+timespec GCCCKicker::mLastTm = { 0, 0};
+
+
 void WatchMemPressure() {
   std::unique_ptr<MemPressureCounter> mpcounter =
     std::make_unique<MemPressureCounter>();
@@ -592,6 +713,16 @@ void WatchMemPressure() {
       printf("memory pressure counter %u, average %f\n",
              cnt, mpcounter->Average());
     }
+
+    bool do_gc_cc = (mpcounter->Average() >= GC_CC_MIN &&
+                     mpcounter->Average() <= GC_CC_MAX);
+    if (do_gc_cc) {
+      GCCCKicker::Kick();
+    }
+
+    ASSERT(!do_gc_cc || !memory_too_low,
+           "should not do both GC/CC and killing a process");
+
     return true;
   };
   watcher.Init(MemPressureWatcher::Handler(std::move(killer)));
@@ -619,6 +750,10 @@ bool CheckCgroups() {
   }
   if (stat(TRY_TO_KEEP_CGROUP, &st) < 0) {
     fprintf(stderr, TRY_TO_KEEP_CGROUP " does not exist!\n");
+    return true;
+  }
+  if (stat(DEFAULT_CGROUP, &st) < 0) {
+    fprintf(stderr, DEFAULT_CGROUP " does not exist!\n");
     return true;
   }
   return false;
