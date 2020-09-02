@@ -1,4 +1,5 @@
 PRODUCT_PACKAGES += \
+	ads-sdk \
 	b2g-info \
 	b2g-ps \
 	b2g-procrank \
