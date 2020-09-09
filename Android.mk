@@ -108,30 +108,6 @@ LOCAL_SHARED_LIBRARIES := libbinder libutils
 include $(BUILD_EXECUTABLE)
 
 include $(CLEAR_VARS)
-LOCAL_MODULE       := fakeSensorPrivacy
-LOCAL_MODULE_TAGS  := optional
-LOCAL_MODULE_CLASS := EXECUTABLES
-LOCAL_SRC_FILES    := fakeSensorPrivacy.cpp
-LOCAL_SHARED_LIBRARIES := libbinder libutils libsensorprivacy
-include $(BUILD_EXECUTABLE)
-
-include $(CLEAR_VARS)
-LOCAL_MODULE       := fakePackageManagerNative
-LOCAL_MODULE_TAGS  := optional
-LOCAL_MODULE_CLASS := EXECUTABLES
-LOCAL_SRC_FILES    := fakePackageManagerNative.cpp
-LOCAL_SHARED_LIBRARIES := libbinder libutils
-include $(BUILD_EXECUTABLE)
-
-include $(CLEAR_VARS)
-LOCAL_MODULE       := gonkProcessInfo
-LOCAL_MODULE_TAGS  := optional
-LOCAL_MODULE_CLASS := EXECUTABLES
-LOCAL_SRC_FILES    := gonkProcessInfo.cpp
-LOCAL_SHARED_LIBRARIES := libbinder libutils
-include $(BUILD_EXECUTABLE)
-
-include $(CLEAR_VARS)
 LOCAL_MODULE       := gonksched
 LOCAL_MODULE_TAGS  := optional
 LOCAL_MODULE_CLASS := EXECUTABLES
@@ -140,6 +116,14 @@ LOCAL_SHARED_LIBRARIES := libbinder libutils libcutils libmediautils libprocessg
 LOCAL_CFLAGS := -DANDROID_VERSION=$(PLATFORM_SDK_VERSION)
 
 LOCAL_C_INCLUDES := frameworks/av/media/utils
+include $(BUILD_EXECUTABLE)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE       := gonkservices
+LOCAL_MODULE_TAGS  := optional
+LOCAL_MODULE_CLASS := EXECUTABLES
+LOCAL_SRC_FILES    := gonkservices.cpp
+LOCAL_SHARED_LIBRARIES := libbinder libutils libsensorprivacy
 include $(BUILD_EXECUTABLE)
 
 include $(CLEAR_VARS)
