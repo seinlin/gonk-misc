@@ -259,6 +259,7 @@ else
 	export TARGET_CPU_VARIANT="$(TARGET_CPU_VARIANT)" && \
 	export PRODUCT_MANUFACTURER="$(PRODUCT_MANUFACTURER)" && \
 	export MOZ_DISABLE_LTO="$(MOZ_DISABLE_LTO)" && \
+	export MOZ_SANDBOX_GPU_NODE="$(MOZ_SANDBOX_GPU_NODE)" && \
 	export HOST_OS="$(HOST_OS)" && \
 	(cd $(GECKO_PATH) ; $(SHELL) build-b2g.sh) && \
 	(cd $(GECKO_PATH) ; $(SHELL) build-b2g.sh package) && \
