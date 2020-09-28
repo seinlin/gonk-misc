@@ -193,6 +193,7 @@ GECKO_LIB_DEPS := \
 	android.hardware.wifi.supplicant@1.0.so \
 	android.hardware.wifi.supplicant@1.1.so \
 	android.hardware.wifi.supplicant@1.2.so \
+	android.system.wifi.keystore@1.0.so \
 	libwificond_ipc_shared.so \
 	netd_aidl_interface-V2-cpp.so \
 	netd_event_listener_interface-V1-cpp.so \
