@@ -38,6 +38,12 @@ service updater-daemon /system/bin/updater-daemon.sh
     class main
     user root
 
+service b2gkillerd /system/bin/b2gkillerd
+    class core
+    user root
+    critical
+    writepid /dev/cpuset/system-background/tasks
+
 on post-fs-data
     mkdir /data/misc/radvd 0770 system system
     mkdir /data/misc/tethering 0770 system system
