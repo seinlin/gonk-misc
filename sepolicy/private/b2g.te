@@ -281,8 +281,11 @@ allow b2g vold_service:service_manager find;
 allow b2g wificond_service:service_manager find;
 
 allow b2g ashmemd:binder call;
-allow b2g system_wifi_keystore_hwservice:hwservice_manager add;
+allow b2g b2g_connectivity_wifi_binder_service:service_manager add;
+allow b2g b2g_connectivity_binder_service:service_manager add;
+allow b2g b2g_datacall_binder_service:service_manager add;
 allow b2g hidl_base_hwservice:hwservice_manager add;
+allow b2g system_wifi_keystore_hwservice:hwservice_manager add;
 
 get_prop(b2g, exported3_default_prop);
 get_prop(b2g, serialno_prop);
