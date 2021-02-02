@@ -5,6 +5,7 @@ if [ ! -d ${API_DAEMON_DIR} ]; then
   cp -rf /system/kaios/http_root ${API_DAEMON_DIR}
   cp -f /system/kaios/api-daemon ${API_DAEMON_DIR}
   cp -f /system/kaios/config.toml ${API_DAEMON_DIR}
+  cp -f /system/kaios/kota.json ${API_DAEMON_DIR}
 fi
 
 exec ${API_DAEMON_DIR}/api-daemon ${API_DAEMON_DIR}/config.toml
